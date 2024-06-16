@@ -138,7 +138,7 @@ export const GET_PROPERTY = gql`
 `;
 
 export const GET_PROPERTIES = gql`
-	query GetProperties($input: PropertiesInquiry!) {
+	query GetProperties($input: PropertiesInquery!) {
 		getProperties(input: $input) {
 			list {
 				_id
