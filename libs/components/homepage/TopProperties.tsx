@@ -78,8 +78,8 @@ const [likeTargetProperty]= useMutation(LIKE_TARGET_PROPERTY)
 							{topProperties.map((property: Property) => {
 								return (
 									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-{/* 										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
- */}									</SwiperSlide>
+										<TopPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
+									</SwiperSlide>
 								);
 							})}
 						</Swiper>

@@ -52,7 +52,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 
 			//todo: Execute getPropertyRefetch .. ohirgi malumotni ackenddan talab qilib olish Refetch qilib olamiz
 
-			await getPropertiesRefetch({ input: initialInput }); //Bu logic ishg atushganda eng ohirgi malumot birmarta qurilib oladi 
+			await getPropertiesRefetch({ input: initialInput }); //Bu logic ishg atushganda eng ohirgi malumot birmarta qurilib oladi
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (error: any) {
@@ -87,8 +87,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 								{trendProperties.map((property: Property) => {
 									return (
 										<SwiperSlide key={property._id} className={'trend-property-slide'}>
-											{/* 													<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />
-											 */}{' '}
+											<TrendPropertyCard property={property} likePropertyHandler={likePropertyHandler} />{' '}
 										</SwiperSlide>
 									);
 								})}

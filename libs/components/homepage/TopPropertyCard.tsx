@@ -12,7 +12,7 @@ import { userVar } from '../../../apollo/store';
 
 interface TopPropertyCardProps {
 	property: Property;
-	likePropertyHandler: any; //todo
+	likePropertyHandler: any;
 }
 
 const TopPropertyCard = (props: TopPropertyCardProps) => {
@@ -62,7 +62,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 								<RemoveRedEyeIcon />
 							</IconButton>
 							<Typography className="view-cnt">{property?.propertyViews}</Typography>
-							<IconButton color={'default'}>
+							<IconButton color={'default'}  onClick={()=> likePropertyHandler(user, property._id)}>
 								{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
 									<FavoriteIcon style={{ color: 'red' }} />
 								) : (
