@@ -67,7 +67,7 @@ export const sweetLoginConfirmAlert = (msg: string) => {
 	});
 };
 
-export const sweetErrorAlert = async (msg: string, duration: number = 3000) => {
+export const sweetErrorAlert = async (msg: string, duration: number = 1000) => {
 	await Swal.fire({
 		icon: 'error',
 		title: msg,
@@ -76,7 +76,7 @@ export const sweetErrorAlert = async (msg: string, duration: number = 3000) => {
 	});
 };
 
-export const sweetMixinErrorAlert = async (msg: string, duration: number = 3000) => {
+export const sweetMixinErrorAlert = async (msg: string, duration: number = 1000) => {
 	await Swal.fire({
 		icon: 'error',
 		title: msg,
@@ -85,7 +85,7 @@ export const sweetMixinErrorAlert = async (msg: string, duration: number = 3000)
 	});
 };
 
-export const sweetMixinSuccessAlert = async (msg: string, duration: number = 2000) => {
+export const sweetMixinSuccessAlert = async (msg: string, duration: number = 1000) => {
 	await Swal.fire({
 		icon: 'success',
 		title: msg,
