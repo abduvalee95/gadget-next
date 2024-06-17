@@ -76,6 +76,9 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 			</Stack>
 
 			
+			
+			
+			
 		);
 	} else {
 		return (
