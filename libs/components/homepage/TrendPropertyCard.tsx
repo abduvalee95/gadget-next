@@ -74,6 +74,8 @@ const TrendPropertyCard = (props: TrendPropertyCardProps) => {
 					</div>
 				</Box>
 			</Stack>
+
+			
 		);
 	} else {
 		return (
