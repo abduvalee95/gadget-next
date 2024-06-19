@@ -7,10 +7,11 @@ import { Property } from '../../types/property/property';
 import Link from 'next/link';
 import { formatterStr } from '../../utils';
 import { REACT_APP_API_URL } from '../../config';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import IconButton from '@mui/material/IconButton';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import { GET_PROPERTIES } from '../../../apollo/user/query';
 
 interface PropertyCardType {
 	property: Property;
@@ -18,6 +19,9 @@ interface PropertyCardType {
 	myFavorites?: boolean;
 	recentlyVisited?: boolean;
 }
+
+
+
 
 const PropertyCard = (props: PropertyCardType) => {
 	const { property, likePropertyHandler, myFavorites, recentlyVisited } = props;

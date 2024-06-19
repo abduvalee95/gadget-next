@@ -19,6 +19,8 @@ import { useRouter } from 'next/router';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 import { propertySquare } from '../../config';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { useQuery } from '@apollo/client';
+import { GET_PROPERTIES } from '../../../apollo/user/query';
 
 const MenuProps = {
 	PaperProps: {
@@ -34,6 +36,8 @@ interface FilterType {
 	initialInput: PropertiesInquiry;
 }
 
+
+
 const Filter = (props: FilterType) => {
 	const { searchFilter, setSearchFilter, initialInput } = props;
 	const device = useDeviceDetect();
@@ -45,37 +49,82 @@ const Filter = (props: FilterType) => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		const queryParams = JSON.stringify({
-			...searchFilter,
-			search: {
-				...searchFilter.search,
-			},
-		});
+	
 
 		if (searchFilter?.search?.locationList?.length == 0) {
 			delete searchFilter.search.locationList;
 			setShowMore(false);
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, `/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.typeList?.length == 0) {
 			delete searchFilter.search.typeList;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, `/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.roomsList?.length == 0) {
 			delete searchFilter.search.roomsList;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, `/property?input=${JSON.stringify({
+				...searchFilter,
+				search: {
+					...searchFilter.search,
+				},
+			})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.options?.length == 0) {
 			delete searchFilter.search.options;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+			},
+		})}`, `/property?input=${JSON.stringify({
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+			},
+		})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.bedsList?.length == 0) {
 			delete searchFilter.search.bedsList;
-			router.push(`/property?input=${queryParams}`, `/property?input=${queryParams}`, { scroll: false }).then();
+			router.push(`/property?input=${JSON.stringify({
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+			},
+		})}`, `/property?input=${JSON.stringify({
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+			},
+		})}`, { scroll: false }).then();
 		}
 
 		if (searchFilter?.search?.locationList) setShowMore(true);

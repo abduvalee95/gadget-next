@@ -30,7 +30,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 
 	const {
 		loading: getPropertiesLoadig,
-		data: getPropertiesData,
+		data: getPropertiesData, // data cachelanyabti
 		error: getPropertiesError,
 		refetch: getPropertiesRefetch,
 	} = useQuery(GET_PROPERTIES, {
@@ -38,7 +38,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTrendProperties(data?.getProperties?.list);
+			setTrendProperties(data?.getProperties?.list); //malum bir malumotlarni saqlash uchun  suniy malumotlarni 
 		},
 	});
 	/** HANDLERS **/
@@ -48,7 +48,7 @@ const TrendProperties = (props: TrendPropertiesProps) => {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED); // Agar Login bomagan bolsa
 			//todo: Execute liketargetProperty
 
-			await likeTargetProperty({ variables: { input: id } });
+			await likeTargetProperty({ variables: { input: id } }); //apolloda cache bor 
 
 			//todo: Execute getPropertyRefetch .. ohirgi malumotni ackenddan talab qilib olish Refetch qilib olamiz
 
