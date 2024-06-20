@@ -11,7 +11,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
@@ -27,6 +27,9 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { GET_PROPERTIES, GET_PROPERTY } from '../../apollo/user/query';
+import { T } from '../../libs/types/common';
+import { Direction } from '../../libs/enums/common.enum';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -43,7 +46,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [propertyId, setPropertyId] = useState<string | null>(null);
 	const [property, setProperty] = useState<Property | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
-	const [destinationProperty, setDestinationProperty] = useState<Property[]>([]);
+	const [destinationProperties, setDestinationProperties] = useState<Property[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [propertyComments, setPropertyComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -54,6 +57,50 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	});
 
 	/** APOLLO REQUESTS **/
+
+	const {
+		loading: getPropertyLoadig,
+		data: getPropertyData, // data cachelanyabti
+		error: getPropertyError,
+		refetch: getPropertyRefetch,
+	} = useQuery(GET_PROPERTY, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: propertyId },
+		//propertyni qayta qayta olormasligi uchun < Boshlangich qiymati 'null' boladi  agar qiymati mavjud bolmasa Queryni Skip qilgin
+		skip: !propertyId,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			if (data?.getProperty) /* tekshiramiz Getproperoty bormi */ setProperty(data.getProperty);
+			if (data?.getProperty) setSlideImage(data.getProperty?.propertyImages[0]); // slide Imageni qiymati tashkilanadi
+		},
+	});
+
+	/** BIRXIL LOCATIONDAGI PROPERTYLARIMIZNI PASDA KORSATISH UCHUN  **/
+	const {
+		loading: getPropertiesLoadig,
+		data: getPropertiesData, // data cachelanyabti
+		error: getPropertiesError,
+		refetch: getPropertiesRefetch,
+	} = useQuery(GET_PROPERTIES, {
+		fetchPolicy: 'cache-and-network',
+		variables: {
+			input: {
+				page: 1,
+				limit: 4,
+				sort: 'createdAt',
+				direction: Direction.DESC,
+				search: {
+					locationList: [property?.propertyLocation], // locationi teng bolganini olib ber
+				},
+			},
+		},
+		//Malumotlar qachon olinish kerak 
+		skip: !propertyId && !property,// mavjud olmasa skip qiladi agar bolsa qabul qiladi 
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			if(data?.getProperties?.list )setDestinationProperties(data?.getProperties?.list); //bunda Property larimizni qiymatni ozgartiramiz 
+		},
+	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -76,6 +123,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
+		//bu suratlarfi ozgartirberyabtibosganda Click amali ishlaganda
 		setSlideImage(image);
 	};
 
@@ -184,10 +232,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 								<Stack className={'sub-images'}>
 									{property?.propertyImages.map((subImg: string) => {
+										// shu erda imagne bosilganda korsatyabti
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
-												<img src={imagePath} alt={'sub-image'} />
+												<img src={imagePath} alt={'sub-image'} /> {/*  slide img ozgaradi  */}
 											</Stack>
 										);
 									})}
@@ -487,7 +536,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 								</Stack>
 							</Stack>
 						</Stack>
-						{destinationProperty.length !== 0 && (
+						{destinationProperties.length !== 0 && (
 							<Stack className={'similar-properties-config'}>
 								<Stack className={'title-pagination-box'}>
 									<Stack className={'title-box'}>
@@ -514,10 +563,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											el: '.swiper-similar-pagination',
 										}}
 									>
-										{destinationProperty.map((property: Property) => {
+										{destinationProperties.map((property: Property) => {
 											return (
 												<SwiperSlide className={'similar-homes-slide'} key={property.propertyTitle}>
-													<PropertyBigCard property={property} key={property?._id} />
+													<PropertyBigCard property={property} key={property?._id} /> {/* //qiymati mavjud bolganda shu ishga tushadi  */}
 												</SwiperSlide>
 											);
 										})}
