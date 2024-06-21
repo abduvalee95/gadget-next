@@ -30,8 +30,13 @@ import 'swiper/css/pagination';
 import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
-import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import {
+	sweetErrorAlert,
+	sweetErrorHandling,
+	sweetMixinErrorAlert,
+	sweetTopSmallSuccessAlert,
+} from '../../libs/sweetAlert';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -60,9 +65,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [createComment] = useMutation(CREATE_COMMENT);
 
 	const {
-		loading: getPropertyLoadig,
+		loading: getPropertyLoading,
 		data: getPropertyData, // data cachelanyabti
 		error: getPropertyError,
 		refetch: getPropertyRefetch,
@@ -80,7 +86,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	/** BIRXIL LOCATIONDAGI PROPERTYLARIMIZNI PASDA KORSATISH UCHUN  **/
 	const {
-		loading: getPropertiesLoadig,
+		loading: getPropertiesLoading,
 		data: getPropertiesData, // data cachelanyabti
 		error: getPropertiesError,
 		refetch: getPropertiesRefetch,
@@ -104,9 +110,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list); //bunda Property larimizni qiymatni ozgartiramiz
 		},
 	});
+
 	/**Comment PROPERTYLARIMIZNI PASDA KORSATISH UCHUN  **/
 	const {
-		loading: getCommentsLoadig,
+		loading: getCommentsLoading,
 		data: getCommentsData, // data cachelanyabti
 		error: getCommentsError,
 		refetch: getCommentsRefetch,
@@ -114,10 +121,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialComment },
 		//Malumotlar qachon olinish kerak
-		skip: !commentInquiry.search.commentRefId, // mavjud olmasa skip qiladi agar bolsa qabul qiladi
+		
+		skip: !commentInquiry.search.commentRefId, // Agar  " " bolsa amalga oshmasin. "fdjkk" bolsa ishladi; "" bolganda falsy boladi  skip true qiymatni qabul qiladi 
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if (data?.getComments.list) setPropertyComments(data?.getComments?.list); //bunda Property larimizni qiymatni ozgartiramiz
+			if (data?.getComments?.list) setPropertyComments(data?.getComments?.list); //bunda Property larimizni qiymatni ozgartiramiz
+			console.log('data', data.getComments)
 			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0); // nullish operator
 		},
 	});
@@ -125,11 +134,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
-			setPropertyId(router.query.id as string);
+			setPropertyId(router.query.id as string); //query ichida id boladi 
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
-					commentRefId: router.query.id as string,
+					commentRefId: router.query.id as string, //Qaysi targetni commentini korstaisg 
 				},
 			});
 			setInsertCommentData({
@@ -184,6 +193,19 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		commentInquiry.page = value;
 		setCommentInquiry({ ...commentInquiry });
+	};
+
+	const createCommentHandler = async () => {
+		try {
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+			await createComment({ variables: { input: insertCommentData } }); // Commentlarnmi insert qilyabmiz
+
+			setInsertCommentData({ ...insertCommentData, commentContent: '' }); // boshatib qoyadi 
+
+			await getCommentsRefetch({ input: commentInquiry }); //refetch yangilayabti 
+		} catch (error: any) {
+			await sweetErrorHandling(error);
+		}
 	};
 
 	if (device === 'mobile') {
@@ -486,6 +508,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 									</Stack>
 								)}
+
+								{/* Comments */}
 								<Stack className={'leave-review-config'}>
 									<Typography className={'main-title'}>Leave A Review</Typography>
 									<Typography className={'review-title'}>Review</Typography>
@@ -499,6 +523,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Button
 											className={'submit-review'}
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
+											onClick={createCommentHandler}
 										>
 											<Typography className={'title'}>Submit Review</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
