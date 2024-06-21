@@ -11,7 +11,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
@@ -29,7 +29,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { GET_PROPERTIES, GET_PROPERTY } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { Direction } from '../../libs/enums/common.enum';
+import { Direction, Message } from '../../libs/enums/common.enum';
+import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -57,6 +59,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	});
 
 	/** APOLLO REQUESTS **/
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const {
 		loading: getPropertyLoadig,
@@ -94,11 +97,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 				},
 			},
 		},
-		//Malumotlar qachon olinish kerak 
-		skip: !propertyId && !property,// mavjud olmasa skip qiladi agar bolsa qabul qiladi 
+		//Malumotlar qachon olinish kerak
+		skip: !propertyId && !property, // mavjud olmasa skip qiladi agar bolsa qabul qiladi
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if(data?.getProperties?.list )setDestinationProperties(data?.getProperties?.list); //bunda Property larimizni qiymatni ozgartiramiz 
+			if (data?.getProperties?.list) setDestinationProperties(data?.getProperties?.list); //bunda Property larimizni qiymatni ozgartiramiz
 		},
 	});
 
@@ -125,6 +128,36 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const changeImageHandler = (image: string) => {
 		//bu suratlarfi ozgartirberyabtibosganda Click amali ishlaganda
 		setSlideImage(image);
+	};
+
+	/** Like HANDLERS **/
+	const likePropertyHandler = async (user: T, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED); // Agar Login bomagan bolsa
+			//todo: Execute liketargetProperty
+
+			await likeTargetProperty({ variables: { input: id } }); //apolloda cache bor
+
+			//todo: Execute getPropertyRefetch .. ohirgi malumotni ackenddan talab qilib olish Refetch qilib olamiz
+			await getPropertyRefetch({ input: propertyId });
+			await getPropertiesRefetch({
+				input: {
+					page: 1,
+					limit: 4,
+					sort: 'createdAt',
+					direction: Direction.DESC,
+					search: {
+						locationList: [property?.propertyLocation], // locationi teng bolganini olib ber
+					},
+				},
+			}); //Bu logic ishg atushganda eng ohirgi malumot birmarta qurilib oladi
+
+			await sweetTopSmallSuccessAlert('success', 800);
+		} catch (error: any) {
+			console.log('ERROR , LikeTrendProperty:', error.message);
+			sweetMixinErrorAlert(error.message).then();
+		}
 	};
 
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
@@ -212,10 +245,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 												<FavoriteIcon color="primary" fontSize={'medium'} />
 											) : (
 												<FavoriteBorderIcon
-													fontSize={'medium'}
+													// fontSize={'medium'}
 													// @ts-ignore
 													onClick={() => likePropertyHandler(user, property?._id)}
-												/>
+												/> 
 											)}
 											<Typography>{property?.propertyLikes}</Typography>
 										</Stack>
@@ -566,7 +599,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										{destinationProperties.map((property: Property) => {
 											return (
 												<SwiperSlide className={'similar-homes-slide'} key={property.propertyTitle}>
-													<PropertyBigCard property={property} key={property?._id} /> {/* //qiymati mavjud bolganda shu ishga tushadi  */}
+													<PropertyBigCard
+														property={property}
+														likePropertyHandler={likePropertyHandler}
+														key={property?._id}
+													/>{' '}
+													{/* //qiymati mavjud bolganda shu ishga tushadi  */}
 												</SwiperSlide>
 											);
 										})}
