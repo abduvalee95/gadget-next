@@ -295,10 +295,12 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className="button-box">
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'} />
+												<FavoriteIcon color="primary" fontSize={'medium'}
+												onClick={() => likePropertyHandler(user, property?._id)}
+												/>
 											) : (
 												<FavoriteBorderIcon
-													// fontSize={'medium'}
+													fontSize={'medium'}
 													// @ts-ignore
 													onClick={() => likePropertyHandler(user, property?._id)}
 												/>

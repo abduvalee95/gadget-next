@@ -68,7 +68,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	useEffect(() => {
 
 		console.log("searchFilter", searchFilter) //
-		//getPropertiesRefetch({input: searchFilter}).then() //  Backenddan refetch qilish : lekin shart emas triger boladi inputda berilgan 
+		getPropertiesRefetch({input: searchFilter}).then() //  Backenddan refetch qilish : lekin shart emas triger boladi inputda berilgan 
 	}, [searchFilter]);
 
 	/** HANDLERS **/

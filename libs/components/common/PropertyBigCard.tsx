@@ -19,7 +19,7 @@ interface PropertyBigCardProps {
 const PropertyBigCard = (props: PropertyBigCardProps) => {
 	const { property,likePropertyHandler } = props;
 	const device = useDeviceDetect();
-	const user = useReactiveVar(userVar);
+	const user = useReactiveVar(userVar); // usevar orqalik biz authenticate bolganmizmi yoki yoqmi tekshirish logicni hosil qiladi 
 	const router = useRouter();
 
 	/** HANDLERS **/
