@@ -122,11 +122,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		variables: { input: initialComment },
 		//Malumotlar qachon olinish kerak
 
-		skip: !commentInquiry.search.commentRefId, // Agar  " " bolsa amalga oshmasin. "fdjkk" bolsa ishladi; "" bolganda falsy boladi  skip true qiymatni qabul qiladi 
+		skip: !commentInquiry.search.commentRefId, // Agar  " " bolsa amalga oshmasin. "fdjkk" bolsa ishladi; "" bolganda falsy boladi  skip true qiymatni qabul qiladi
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			if (data?.getComments?.list) setPropertyComments(data?.getComments?.list); //bunda Property larimizni qiymatni ozgartiramiz
-			console.log('data', data.getComments)
+			console.log('data', data.getComments);
 			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0); // nullish operator
 		},
 	});
@@ -134,11 +134,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (router.query.id) {
-			setPropertyId(router.query.id as string); //query ichida id boladi 
+			setPropertyId(router.query.id as string); //query ichida id boladi
 			setCommentInquiry({
 				...commentInquiry,
 				search: {
-					commentRefId: router.query.id as string, //Qaysi targetni commentini korstaisg 
+					commentRefId: router.query.id as string, //Qaysi targetni commentini korstaisg
 				},
 			});
 			setInsertCommentData({
@@ -200,9 +200,9 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await createComment({ variables: { input: insertCommentData } }); // Commentlarnmi insert qilyabmiz
 
-			setInsertCommentData({ ...insertCommentData, commentContent: '' }); // boshatib qoyadi 
+			setInsertCommentData({ ...insertCommentData, commentContent: '' }); // boshatib qoyadi
 
-			await getCommentsRefetch({ input: commentInquiry }); //refetch yangilayabti 
+			await getCommentsRefetch({ input: commentInquiry }); //refetch yangilayabti
 		} catch (error: any) {
 			await sweetErrorHandling(error);
 		}
@@ -210,13 +210,11 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	if (getPropertiesLoading) {
 		return (
-			<Stack sx={{display:'flex',justifyContent:'center',alignItems:'center',width:'100%', height:'1080px'}}>
-				<CircularProgress size={"4rem"}/>
-		</Stack>
-	)
-}
-
-
+			<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '1080px' }}>
+				<CircularProgress size={'4rem'} />
+			</Stack>
+		);
+	}
 
 	if (device === 'mobile') {
 		return <div>PROPERTY DETAIL PAGE</div>;
@@ -295,8 +293,10 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 										</Stack>
 										<Stack className="button-box">
 											{property?.meLiked && property?.meLiked[0]?.myFavorite ? (
-												<FavoriteIcon color="primary" fontSize={'medium'}
-												onClick={() => likePropertyHandler(user, property?._id)}
+												<FavoriteIcon
+													color="primary"
+													fontSize={'medium'}
+													onClick={() => likePropertyHandler(user, property?._id)}
 												/>
 											) : (
 												<FavoriteBorderIcon
@@ -313,10 +313,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
-									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : ''}
-										alt={'main-image'}
-									/>
+									<img src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : ''} alt={'main-image'} />
 								</Stack>
 								<Stack className={'sub-images'}>
 									{property?.propertyImages.map((subImg: string) => {
@@ -536,8 +533,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 											className={'submit-review'}
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}
 											onClick={createCommentHandler}
-										/* todo: Enter kiritish  */
-											
+											/* todo: Enter kiritish  */
 										>
 											<Typography className={'title'}>Submit Review</Typography>
 											<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
