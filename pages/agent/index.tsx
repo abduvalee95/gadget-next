@@ -43,9 +43,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 
-	//todo
 	const {
-		loading: getAgentsLoadig,
+		loading: getAgentsLoading,
 		data: getAgentsData,
 		error: getAgentsError,
 		refetch: getAgentsRefetch,
