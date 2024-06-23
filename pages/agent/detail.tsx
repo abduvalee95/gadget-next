@@ -6,19 +6,21 @@ import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
 import ReviewCard from '../../libs/components/agent/ReviewCard';
 import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import { useMutation, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
 import { Member } from '../../libs/types/member/member';
-import { sweetErrorHandling } from '../../libs/sweetAlert';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 import { userVar } from '../../apollo/store';
 import { PropertiesInquiry } from '../../libs/types/property/property.input';
 import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { Comment } from '../../libs/types/comment/comment';
 import { CommentGroup } from '../../libs/enums/comment.enum';
-import { REACT_APP_API_URL } from '../../libs/config';
+import { Messages, REACT_APP_API_URL } from '../../libs/config';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { CREATE_COMMENT, LIKE_TARGET_MEMBER, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
+import { T } from '../../libs/types/common';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -30,7 +32,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const user = useReactiveVar(userVar);
-	const [mbId, setMbId] = useState<string | null>(null);
+	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
 	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
 	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
@@ -45,15 +47,93 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	});
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_MEMBER);
+	const [createComment] = useMutation(CREATE_COMMENT);
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+
+	const {
+		loading: getMembertLoading,
+		data: getAMemberData, // data cachelanyabti
+		error: getAMemberError,
+		refetch: getAMemberRefetch,
+	} = useQuery(GET_MEMBER, {
+		fetchPolicy: 'network-only',
+		variables: { input: agentId },
+		//propertyni qayta qayta olormasligi uchun < Boshlangich qiymati 'null' boladi  agar qiymati mavjud bolmasa Queryni Skip qilgin
+		skip: !agentId,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgent(data?.getMember);
+			setSearchFilter({
+				...searchFilter,
+				search: {
+					memberId: data?.getMember?._id,
+				},
+			});
+			setCommentInquiry({
+				...commentInquiry,
+				search: {
+					commentRefId: data?.getMember?._id,
+				},
+			});
+			setInsertCommentData({
+				...insertCommentData,
+				commentRefId: data?.getMember?._id,
+			});
+		},
+	});
+
+	/** Tegishli PROPERTYLARIMIZNI PASDA KORSATISH UCHUN  **/
+	const {
+		loading: getPropertiesLoading,
+		data: getPropertiesData, // data cachelanyabti
+		error: getPropertiesError,
+		refetch: getPropertiesRefetch,
+	} = useQuery(GET_PROPERTIES, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: searchFilter },
+		skip: !searchFilter.search.memberId,
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgentProperties(data?.getProperties?.list);
+			setPropertyTotal(data?.getProperties?.metaCounter[0].total ?? 0);
+		},
+	});
+
+	/**Comment Memberg dahldor Comment **/
+	const {
+		loading: getCommentsLoading,
+		data: getCommentsData, // data cachelanyabti
+		error: getCommentsError,
+		refetch: getCommentsRefetch,
+	} = useQuery(GET_COMMENTS, {
+		fetchPolicy: 'cache-and-network',
+		variables: { input: commentInquiry },
+		//Malumotlar qachon olinish kerak
+
+		skip: !commentInquiry.search.commentRefId, // Agar  " " bolsa amalga oshmasin. "fdjkk" bolsa ishladi; "" bolganda falsy boladi  skip true qiymatni qabul qiladi
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setAgentComments(data?.getComments?.list); //bunda Property larimizni qiymatni ozgartiramiz
+			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0); // nullish operator
+		},
+	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		if (router.query.agentId) setMbId(router.query.agentId as string);
+		if (router.query.agentId) setAgentId(router.query.agentId as string);
 	}, [router]);
 
-	useEffect(() => {}, [searchFilter]);
-	useEffect(() => {}, [commentInquiry]);
+	useEffect(() => {
+		if (searchFilter.search.memberId) {
+			getPropertiesRefetch({ variables: { input: searchFilter } }).then();
+		}
+	}, [searchFilter]);
+
+	useEffect(() => {
+		if (commentInquiry.search.commentRefId) {
+			getCommentsRefetch({ variables: { input: commentInquiry } }).then();
+		}
+	}, [commentInquiry]);
 
 	/** HANDLERS **/
 	const redirectToMemberPageHandler = async (memberId: string) => {
@@ -77,8 +157,34 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	const createCommentHandler = async () => {
 		try {
+			if (!user._id) throw new Error(Messages.error2);
+			if (user._id === agentId) throw new Error("Can't write review to yourself");
+			await createComment({ variables: { input: insertCommentData } }); // Commentlarnmi insert qilyabmiz
+
+			setInsertCommentData({ ...insertCommentData, commentContent: '' }); // boshatib qoyadi
+
+			await getCommentsRefetch({ input: commentInquiry }); //refetch yangilayabti
 		} catch (err: any) {
 			sweetErrorHandling(err).then();
+		}
+	};
+
+	/** Like HANDLERS **/
+	const likePropertyHandler = async (user: any, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Messages.error2); // Agar Login bomagan bolsa
+			//: Execute liketargetProperty
+
+			await likeTargetProperty({ variables: { input: id } }); //apolloda cache bor
+
+			//: Execute getPropertyRefetch .. ohirgi malumotni ackenddan talab qilib olish Refetch qilib olamiz
+			await getPropertiesRefetch({ input: searchFilter });
+
+			await sweetTopSmallSuccessAlert('success', 800);
+		} catch (error: any) {
+			console.log('ERROR , LikeTrendProperty:', error.message);
+			sweetMixinErrorAlert(error.message).then();
 		}
 	};
 
@@ -106,7 +212,11 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							{agentProperties.map((property: Property) => {
 								return (
 									<div className={'wrap-main'} key={property?._id}>
-										<PropertyBigCard property={property} key={property?._id} likePropertyHandler={likeTargetProperty}/>
+										<PropertyBigCard
+											property={property}
+											key={property?._id}
+											likePropertyHandler={likePropertyHandler}
+										/>
 									</div>
 								);
 							})}
