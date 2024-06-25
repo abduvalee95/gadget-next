@@ -26,7 +26,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
 	},
-});
+}); //bu tildi ozgartiryabti 
 
 const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -61,7 +61,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		//propertyni qayta qayta olormasligi uchun < Boshlangich qiymati 'null' boladi  agar qiymati mavjud bolmasa Queryni Skip qilgin
 		skip: !agentId,
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
+		onCompleted: (data: any) => {
 			setAgent(data?.getMember);
 			setSearchFilter({
 				...searchFilter,

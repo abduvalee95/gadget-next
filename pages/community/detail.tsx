@@ -72,15 +72,17 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [updateComment] = useMutation(UPDATE_COMMENT);
 
 	const {
-		loading: boardArticlesLoading,
-		data: boardArticlesData,
-		error: getBoardArticlesError,
-		refetch: boardArticlesRefetch,
+		loading: boardArticleLoading,
+		data: boardArticleData,
+		error: getBoardArticleError,
+		refetch: boardArticleRefetch,
 	} = useQuery(GET_BOARD_ARTICLE, {
 		fetchPolicy: 'network-only',
-		variables: { input: articleId },
+		variables: {
+			input: articleId,
+		},
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
+		onCompleted(data: any) {
 			setBoardArticle(data?.getBoardArticle);
 			if (data?.getBoardArticle?.memberData?.memberImage) {
 				setMemberImage(`${process.env.REACT_APP_API_URL}/${data?.getBoardArticle?.memberData?.memberImage}`);
@@ -98,9 +100,9 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setComments(data?.getComments?.list); //bunda Property larimizni qiymatni ozgartiramiz
-			setTotal(data?.getComments?.metaCounter[0]?.total || 0); // nullish operator
+		onCompleted(data: any) {
+			setComments(data.getComments.list); //bunda Property larimizni qiymatni ozgartiramiz
+			setTotal(data.getComments?.metaCounter?.[0]?.total || 0); // nullish operator
 		},
 	});
 
@@ -123,7 +125,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 	/** Like HANDLERS **/
 	//todo: likeBoArticle
-	const likeArticleHandler = async (user: any, id: string) => {
+	const likeBoArticleHandler = async (user: any, id: any) => {
 		try {
 			if (likeLoading) return;
 			if (!id) return;
@@ -133,7 +135,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			await likeTargetBoardArticle({ variables: { input: id } }); //apolloda cache bor
 
 			//: Execute getPropertyRefetch .. ohirgi malumotni ackenddan talab qilib olish Refetch qilib olamiz
-			await boardArticlesRefetch({ input: articleId });
+			await boardArticleRefetch({ input: articleId });
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (error: any) {
@@ -147,19 +149,23 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const createCommentHandler = async () => {
 		if (!comment) return;
 		try {
-			if (!user._id) throw new Error(Messages.error2);
+			if (!user?._id) throw new Error(Messages.error2);
 			const commentInput: CommentInput = {
 				commentGroup: CommentGroup.ARTICLE,
 				commentRefId: articleId,
 				commentContent: comment,
 			};
-			await createComment({ variables: { input: commentInput } });
+			await createComment({
+				variables: {
+					input: commentInput
+				}
+			});
 			await getCommentsRefetch({ input: searchFilter }); //refetch yangilayabti
-			await boardArticlesRefetch({ input: articleId });
+			await boardArticleRefetch({ input: articleId });
 			setComment('');
 			await sweetMixinSuccessAlert('successFullyCommented', 800);
-		} catch (err: any) {
-			sweetMixinErrorAlert(err).then();
+		} catch (error: any) {
+			sweetMixinErrorAlert(error.message)
 		}
 	};
 
@@ -195,7 +201,6 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 				});
 				await sweetMixinSuccessAlert('Updated!!!');
 			}
-			getCommentsRefetch({ input: searchFilter });
 			getCommentsRefetch({ input: searchFilter });
 		} catch (error: any) {
 			sweetMixinErrorAlert(error).then();
@@ -325,26 +330,29 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											<Stack className="icon-info">
 												{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
 													<ThumbUpAltIcon
-														onClick={() => {likeArticleHandler(user, boardArticle?._id)}}/>
+														onClick={() => {
+															likeBoArticleHandler(user, boardArticle?._id);
+														}}
+													/>
 												) : (
-														//@ts-nocheck
-													<ThumbUpOffAltIcon onClick={() => {likeArticleHandler(user, boardArticle?._id)}}/>
+													//@ts-nocheck
+													<ThumbUpOffAltIcon
+														onClick={() => {
+															likeBoArticleHandler(user, boardArticle?._id);
+														}}
+													/>
 												)}
 
 												<Typography className="text">{boardArticle?.articleLikes}</Typography>
 											</Stack>
 											<Stack className="divider"></Stack>
 											<Stack className="icon-info">
-
 												<VisibilityIcon />
 												<Typography className="text">{boardArticle?.articleViews}</Typography>
 											</Stack>
 											<Stack className="divider"></Stack>
 											<Stack className="icon-info">
-												{total > 0 ? 
-													<ChatIcon />
-												 : 
-													<ChatBubbleOutlineRoundedIcon />}
+												{total > 0 ? <ChatIcon /> : <ChatBubbleOutlineRoundedIcon />}
 
 												<Typography className="text">{boardArticle?.articleComments}</Typography>
 											</Stack>
@@ -357,13 +365,11 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										<Stack className="top">
 											<Button>
 												{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-													<ThumbUpAltIcon onClick={()=> likeArticleHandler (user, boardArticle?._id)  }/>
+													<ThumbUpAltIcon onClick={() => likeBoArticleHandler(user, boardArticle?._id)} />
 												) : (
-													<ThumbUpOffAltIcon onClick={()=> likeArticleHandler (user, boardArticle?._id) } />
+													<ThumbUpOffAltIcon onClick={() => likeBoArticleHandler(user, boardArticle?._id)} />
 												)}
-												
-													
-													
+
 												<Typography className="text">{boardArticle?.articleLikes}</Typography>
 											</Button>
 										</Stack>

@@ -117,7 +117,7 @@ export const PropertyCard = (props: PropertyCardProps) => {
 				<Stack className="views-box">
 					<Typography className="views">{property.propertyViews.toLocaleString()}</Typography>
 				</Stack>
-				{!memberPage && (
+				{!memberPage &&  property.propertyStatus === PropertyStatus.ACTIVE && ( /* Faqatgina Active Bolgan holatdagina 2ta uttondi render qilsin  */
 					<Stack className="action-box">
 						<IconButton className="icon-button" onClick={() => pushEditProperty(property._id)}>
 							<ModeIcon className="buttons" />
