@@ -70,7 +70,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
 	const [createComment] = useMutation(CREATE_COMMENT);
 	const [updateComment] = useMutation(UPDATE_COMMENT);
-
+console.log('articleId::>>>',articleId)
 	const {
 		loading: boardArticleLoading,
 		data: boardArticleData,
@@ -163,6 +163,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 			await getCommentsRefetch({ input: searchFilter }); //refetch yangilayabti
 			await boardArticleRefetch({ input: articleId });
 			setComment('');
+			setWordsCnt(0);
 			await sweetMixinSuccessAlert('successFullyCommented', 800);
 		} catch (error: any) {
 			sweetMixinErrorAlert(error.message)
