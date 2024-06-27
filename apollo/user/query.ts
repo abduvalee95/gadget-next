@@ -5,7 +5,7 @@ import { gql } from '@apollo/client';
  *************************/
 
 export const GET_AGENTS = gql`
-	query GetAgents($input: AgentsInquery!) {
+	query GetAgents($input: AgentsInquiry!) {
 		getAgents(input: $input) {
 			list {
 				_id
