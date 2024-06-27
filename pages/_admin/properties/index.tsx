@@ -29,7 +29,6 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	);
 	const [searchType, setSearchType] = useState('ALL');
 
-	/** APOLLO REQUESTS **/
 
 	/** APOLLO REQUESTS **/
 	const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
@@ -243,7 +242,8 @@ AdminProperties.defaultProps = {
 		limit: 10,
 		sort: 'createdAt',
 		direction: 'DESC',
-		search: {},
+		search: {
+		},
 	},
 };
 
