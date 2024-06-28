@@ -7,6 +7,7 @@ import { onError } from '@apollo/client/link/error';
 import { getJwtToken } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetMixinErrorAlert } from '../libs/sweetAlert';
+import { url } from 'inspector';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
@@ -27,6 +28,35 @@ const tokenRefreshLink = new TokenRefreshLink({
 		return null;
 	},
 });
+
+//Custom Websocket Client
+
+class loggingWebSocket {
+	private socket: WebSocket;
+
+	constructor(url: string) {
+		this.socket = new WebSocket(url);
+
+		this.socket.onopen = () => {
+			console.log('WebSocket Conected');
+		};
+
+		this.socket.onmessage = (msg) => {
+			console.log('WebSocket Message', msg.data);
+		};
+
+		this.socket.onerror = (error) => {
+			console.log('WebSocket Error', error);
+		};
+	}
+	send(data: string | ArrayBuffer | SharedArrayBuffer | Blob | ArrayBufferView) {
+		this.socket.send(data);
+	}
+
+	close() {
+		this.socket.close();
+	}
+}
 
 function createIsomorphicLink() {
 	if (typeof window !== 'undefined') {
@@ -56,15 +86,15 @@ function createIsomorphicLink() {
 					return { headers: getHeaders() };
 				},
 			},
+			webSocketImpl: loggingWebSocket,
 		});
 
 		const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 			if (graphQLErrors) {
-				graphQLErrors.map(({ message, locations, path, extensions }) =>{
-					console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
-				if(!message.includes('input')) sweetMixinErrorAlert(message) //frontga hatolikni chikarish 
-				}
-				);
+				graphQLErrors.map(({ message, locations, path, extensions }) => {
+					console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+					if (!message.includes('input')) sweetMixinErrorAlert(message); //frontga hatolikni chikarish
+				});
 			}
 			if (networkError) console.log(`[Network error]: ${networkError}`);
 			// @ts-ignore
