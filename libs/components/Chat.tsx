@@ -145,6 +145,7 @@ const Chat = () => {
 						<Stack className={'chat-main'}>
 							<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
 								<div className={'welcome'}>Welcome to Live chat!</div>
+							{/* /* Idni memberDatani bormi yoki yoqmi tekshioramiz va messageni ong tomonga yoki chap tarafga chiqishni korish un */}
 							</Box>
 							{messagesList.map((ele: MessagePayload) => {
 								const { text, memberData } = ele;
@@ -152,7 +153,6 @@ const Chat = () => {
 									? `${REACT_APP_API_URL}/${memberData.memberImage}`
 									: '/img/profile/deefaultUser.svg';
 
-								/* Idni memberDatani bormi yoki yoqmi tekshioramiz va messageni ong tomonga yoki chap tarafga chiqishni korish un */
 								return memberData?._id === user?._id ? (
 									<Box
 										component={'div'}
@@ -161,8 +161,7 @@ const Chat = () => {
 										alignItems={'flex-end'}
 										justifyContent={'flex-end'}
 										sx={{ m: '10px 0px' }}
-									>
-										{/* /* habar yuborgan inson ozimiz bolsek right boladi  */}
+										>
 										<div className={'msg-right'}>{text}</div>
 									</Box>
 								) : (
@@ -172,6 +171,7 @@ const Chat = () => {
 									</Box>
 								);
 							})}
+							{/* /* habar yuborgan inson ozimiz bolsek right boladi  */}
 						</Stack>
 					</ScrollableFeed>
 				</Box>
