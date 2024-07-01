@@ -8,6 +8,7 @@ import { getJwtToken } from '../libs/auth';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
 import { sweetMixinErrorAlert } from '../libs/sweetAlert';
 import { url } from 'inspector';
+import { socketVar } from './store';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
@@ -35,7 +36,8 @@ class loggingWebSocket {
 	private socket: WebSocket;
 
 	constructor(url: string) {
-		this.socket = new WebSocket(url);
+		this.socket = new WebSocket(`${url}?token=${getJwtToken()}`)
+		socketVar(this.socket)
 
 		this.socket.onopen = () => {
 			console.log('WebSocket Conected');
