@@ -48,25 +48,29 @@ body::-webkit-scrollbar {
 		.navbar {
 			.navbar-main {
 				position: fixed;
-				padding: 22px 0px;
-				width: 100%;
-				height: 87px;
+				padding: 12px 0px;
+				width: 76%;
+				height: 70px;
 				display: flex;
 				flex-direction: row;
 				box-sizing: border-box;
 				z-index: 99;
 				align-items: center;
 				border-top: 1px solid rgba(255, 255, 255, 0.07);
+				background-color:#134B70;
+				margin-left: 220px;
+				border-radius: 0 0 10px 10px;
 				&.transparent {
-					background-color: #181a209e;
+					background-color: #eaecf49e;
+					border-radius: 0 0 10px 10px;
 				}
 				.container {
 					flex-direction: row;
 					align-items: center;
-					justify-content: space-between;
+					justify-content: space-evenly;
 					.logo-box {
 						img {
-							width: 150px;
+							width: 50px;
 							cursor: pointer;
 						}
 					}
@@ -78,11 +82,11 @@ body::-webkit-scrollbar {
 						justify-content: space-between;
 						div {
 							position: relative;
-							color: #eeeeeeed;
+							color: #090808ed;
 							font-family: $font;
-							font-size: 15px;
+							font-size: 13px;
 							font-style: normal;
-							font-weight: 600;
+							font-weight: 400;
 							line-height: normal;
 							cursor: pointer;
 							.community_menu {
@@ -175,7 +179,7 @@ body::-webkit-scrollbar {
 		position: relative;
 		width: 100%;
 		height: 860px;
-		background-image: url('/img/banner/header1.svg');
+		background: #d2dfe3c7;
 		background-size: cover;
 		.container {
 			position: relative;
@@ -413,9 +417,10 @@ body::-webkit-scrollbar {
 	}
 
 	.header-basic {
+		margin-top: 90px;
 		position: relative;
 		width: 100%;
-		height: 557px;
+		height: 337px;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
@@ -426,7 +431,7 @@ body::-webkit-scrollbar {
 		.container {
 			margin-top: 175px;
 			strong {
-				color: #fff;
+				color: #000000;
 				font-family: $font;
 				font-size: 48px;
 				font-style: normal;
@@ -436,7 +441,7 @@ body::-webkit-scrollbar {
 				text-transform: capitalize;
 			}
 			span {
-				color: #fff;
+				color: #0000;
 				font-family: $font;
 				font-size: 24px;
 				font-style: normal;
@@ -458,12 +463,12 @@ body::-webkit-scrollbar {
 				display: flex;
 				flex-direction: row;
 				img {
-					width: 55px;
+					width: 105px;
 					height: 59px;
 					border-radius: 50%;
 				}
 				div {
-					margin-left: 8px;
+					margin-left: 48px;
 					display: flex;
 					flex-direction: column;
 					strong {

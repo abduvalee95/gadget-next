@@ -24,7 +24,7 @@ const TopAgents = (props: TopAgentsProps) => {
 
 	/** APOLLO REQUESTS **/
 	const {
-		loading: getAgentsLoadig,
+		loading: getAgentsLoading,
 		data: getAgentsData,
 		error: getAgentsError,
 		refetch: getAgentsRefetch,
@@ -71,12 +71,12 @@ const TopAgents = (props: TopAgentsProps) => {
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
-							<span>Top Agents</span>
-							<p>Our Top Agents always ready to serve you</p>
+							<span>Top Sellers</span>
+							<p>Our Top Sellers always ready to serve you</p>
 						</Box>
 						<Box component={'div'} className={'right'}>
 							<div className={'more-box'}>
-								<span>See All Agents</span>
+								<span>See All Sellers</span>
 								<img src="/img/icons/rightup.svg" alt="" />
 							</div>
 						</Box>

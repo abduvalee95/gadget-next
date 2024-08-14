@@ -17,7 +17,7 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberGadgets
 			memberRank
 			memberArticles
 			memberPoints
@@ -37,62 +37,66 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
  *        PROPERTY        *
  *************************/
 
-export const UPDATE_PROPERTY_BY_ADMIN = gql`
-	mutation UpdatePropertyByAdmin($input: PropertyUpdate!) {
-		updatePropertyByAdmin(input: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+export const UPDATE_GADGET_BY_ADMIN = gql`
+	mutation UpdateGadgetByAdmin($input: GadgetUpdate!) {
+    updateGadgetByAdmin(input: $input) {
+        _id
+        gadgetType
+        gadgetStatus
+        gadgetLocation
+        gadgetColor
+        gadgetTitle
+        gadgetPrice
+
+        gadgetWeight
+        gadgetCapacity
+        gadgetViews
+        gadgetLikes
+        gadgetComments
+        gadgetRank
+        gadgetImages
+        gadgetDesc
+        
+        
+        memberId
+        soldAt
+        deletedAt
+        constructedAt
+        createdAt
+        updatedAt
+    }
+}
 `;
 
-export const REMOVE_PROPERTY_BY_ADMIN = gql`
-	mutation RemovePropertyByAdmin($input: String!) {
-		removePropertyByAdmin(propertyId: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+export const REMOVE_GADGET_BY_ADMIN = gql`
+	mutation RemoveGadgetByAdmin($input: String!) {
+    removeGadgetByAdmin(gadgetId: $input) {
+        _id
+        gadgetType
+        gadgetStatus
+        gadgetLocation
+        gadgetColor
+        gadgetTitle
+        gadgetPrice
+        
+        gadgetWeight
+        gadgetCapacity
+        gadgetViews
+        gadgetLikes
+        gadgetComments
+        gadgetRank
+        gadgetImages
+        gadgetDesc
+        
+        
+        memberId
+        soldAt
+        deletedAt
+        constructedAt
+        createdAt
+        updatedAt
+    }
+}
 `;
 
 /**************************
@@ -153,3 +157,48 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
 		}
 	}
 `;
+
+/**************************
+ *         COMMENT        *
+ *************************/
+
+export const CREATENOTICE = gql`
+	mutation CreateNotice($input: CsInput!) {
+    createNotice(input: $input) {
+        noticeCategory
+        noticeStatus
+        noticeTitle
+        noticeContent
+        memberId
+        createdAt
+        updatedAt
+        memberData {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberGadgets
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberWarnings
+            memberBlocks
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+            notifications
+        }
+    }
+}`;

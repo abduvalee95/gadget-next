@@ -19,7 +19,7 @@ export const SIGN_UP = gql`
 			memberDesc
 			memberWarnings
 			memberBlocks
-			memberProperties
+			memberGadgets
 			memberRank
 			memberArticles
 			memberPoints
@@ -48,7 +48,7 @@ export const LOGIN = gql`
 			memberDesc
 			memberWarnings
 			memberBlocks
-			memberProperties
+			memberGadgets
 			memberRank
 			memberPoints
 			memberLikes
@@ -74,7 +74,7 @@ export const UPDATE_MEMBER = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberGadgets
 			memberRank
 			memberArticles
 			memberPoints
@@ -105,7 +105,7 @@ export const LIKE_TARGET_MEMBER = gql`
 			memberDesc
 			memberWarnings
 			memberBlocks
-			memberProperties
+			memberGadgets
 			memberRank
 			memberPoints
 			memberLikes
@@ -122,91 +122,97 @@ export const LIKE_TARGET_MEMBER = gql`
  *        PROPERTY        *
  *************************/
 
-export const CREATE_PROPERTY = gql`
-	mutation CreateProperty($input: PropertyInput!) {
-		createProperty(input: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+export const CREATE_GADGET = gql`
+mutation CreateGadget($input: GadgetInput!) {
+    createGadget(input: $input) {
+        _id
+        gadgetType
+        gadgetStatus
+        gadgetLocation
+        gadgetColor
+        gadgetTitle
+        gadgetPrice
+        
+        gadgetWeight
+        gadgetCapacity
+        gadgetViews
+        gadgetLikes
+        gadgetComments
+        gadgetRank
+        gadgetImages
+        gadgetDesc
+        
+        
+        memberId
+        soldAt
+        deletedAt
+        constructedAt
+        createdAt
+        updatedAt
+    }
+}
 `;
 
-export const UPDATE_PROPERTY = gql`
-	mutation UpdateProperty($input: PropertyUpdate!) {
-		updateProperty(input: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+export const UPDATE_GADGET = gql`
+	mutation UpdateGadget($input: GadgetUpdate!) {
+    updateGadget(input: $input) {
+        _id
+        gadgetType
+        gadgetStatus
+        gadgetLocation
+        gadgetColor
+        gadgetTitle
+        gadgetPrice
+        
+        gadgetWeight
+        gadgetCapacity
+        gadgetViews
+        gadgetLikes
+        gadgetComments
+        gadgetRank
+        gadgetImages
+        gadgetDesc
+        
+        
+        memberId
+        soldAt
+        deletedAt
+        constructedAt
+        createdAt
+        updatedAt
+    }
+}
 `;
 
 export const LIKE_TARGET_PROPERTY = gql`
-	mutation LikeTargetProperty($input: String!) {
-		likeTargetProperty(propertyId: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-		}
-	}
+mutation LikeTargetGadget($input: String!) {
+    likeTargetGadget(gadgetId: $input) {
+        _id
+        gadgetType
+        gadgetStatus
+        gadgetLocation
+        gadgetColor
+        gadgetTitle
+        gadgetPrice
+        
+        gadgetWeight
+        gadgetCapacity
+        gadgetViews
+        gadgetLikes
+        gadgetComments
+        gadgetRank
+        gadgetImages
+        gadgetDesc
+        
+        
+        memberId
+        soldAt
+        deletedAt
+        constructedAt
+        createdAt
+        updatedAt
+    }
+}
 `;
 
 /**************************
@@ -327,4 +333,46 @@ export const UNSUBSCRIBE = gql`
 			updatedAt
 		}
 	}
+`;
+export const CREATENOTICE = gql`
+	mutation CreateNotice($input: CsInput!) {
+    createNotice(input: $input) {
+        noticeCategory
+        noticeStatus
+        noticeTitle
+        noticeContent
+        memberId
+        createdAt
+        updatedAt
+        memberData {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberGadgets
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberWarnings
+            memberBlocks
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+            notifications
+        }
+    }
+}
+
 `;

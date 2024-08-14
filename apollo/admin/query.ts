@@ -20,7 +20,7 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
 				memberDesc
 				memberWarnings
 				memberBlocks
-				memberProperties
+				memberGadgets
 				memberRank
 				memberArticles
 				memberPoints
@@ -43,60 +43,71 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
  *************************/
 
 export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-	query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
-		getAllPropertiesByAdmin(input: $input) {
-			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
-					memberPoints
-					memberLikes
-					memberViews
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
+query GetAllGadgetsByAdmin($input: AllGadgetsInquiry!) {
+    getAllGadgetsByAdmin(input: $input) {
+        list {
+            _id
+            gadgetType
+            gadgetStatus
+            gadgetLocation
+            gadgetColor
+            gadgetTitle
+            gadgetPrice
+          
+            gadgetWeight
+            gadgetCapacity
+            gadgetViews
+            gadgetLikes
+            gadgetComments
+            gadgetRank
+            gadgetImages
+            gadgetDesc
+            
+            
+            memberId
+            soldAt
+            deletedAt
+            constructedAt
+            createdAt
+            updatedAt
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberGadgets
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberWarnings
+                memberBlocks
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
 `;
 
 /**************************
@@ -131,7 +142,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberGadgets
 					memberRank
 					memberPoints
 					memberLikes
@@ -178,7 +189,7 @@ export const GET_COMMENTS = gql`
 					memberDesc
 					memberWarnings
 					memberBlocks
-					memberProperties
+					memberGadgets
 					memberRank
 					memberPoints
 					memberLikes
@@ -194,4 +205,108 @@ export const GET_COMMENTS = gql`
 			}
 		}
 	}
+`;
+
+/**************************
+ *         GET_NOTIFICATIONS       *
+ *************************/
+
+export const GET_NOTIFICATIONS = gql`
+	query GetNotification($input: NotificationInput!) {
+    getNotification(input: $input) {
+        memberId
+        notificationRefId
+        unRead
+        notificationStatus
+        notificationGroup
+        authorId
+        receiverId
+        gadgetId
+        articleId
+        createdAt
+        updatedAt
+        memberData {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberGadgets
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberWarnings
+            memberBlocks
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+            notifications
+        }
+    }
+}
+
+
+`;
+
+/**************************
+ *          GET_NOTICE        *
+ *************************/
+
+export const GET_NOTICE = gql`
+query GetNotices($input: NoticesInquiry!) {
+    getNotices(input: $input) {
+        list {
+            noticeCategory
+            noticeStatus
+            noticeTitle
+            noticeContent
+            memberId
+            createdAt
+            updatedAt
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberGadgets
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberWarnings
+                memberBlocks
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+                notifications
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
 `;

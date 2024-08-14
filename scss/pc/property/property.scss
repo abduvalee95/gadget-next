@@ -1,7 +1,7 @@
 #pc-wrap {
 	#property-list-page {
 		padding-bottom: 40px;
-		background: #f6f6f6;
+		background: #f5f5f5;
 		.container {
 			.right {
 				position: absolute;
@@ -27,11 +27,11 @@
 			.property-page {
 				position: relative;
 				width: 100%;
-				flex-direction: row;
+				flex-direction: column;
 				gap: 25px;
 				padding-top: 96px;
 				.filter-config {
-					width: 339px;
+					width: 100%;
 					height: auto;
 					.filter-main {
 						width: 100%;
@@ -43,13 +43,17 @@
 							position: relative;
 							width: 100%;
 							gap: 10px;
+							flex-direction: row;
+							align-items: center;
+							justify-content: flex-start;
 							.property-location {
+								flex-direction: row;
 								gap: 10px;
 								height: 115px;
 								overflow: hidden;
 								transition: 1s;
 								&:hover {
-									height: 253px;
+									height: 273px;
 								}
 							}
 							.title-main {
@@ -105,7 +109,7 @@
 								.property-checkbox {
 									width: 16px;
 									height: 15px;
-									border-radius: 12px;
+									border-radius: 22px;
 									margin-right: 10px;
 									svg {
 										width: 19px;
@@ -154,12 +158,12 @@
 								line-height: 19px;
 							}
 							.button-group {
-								width: 100%;
+								width: 90%;
 								height: 43.998px;
 								flex-direction: row;
 								button {
 									width: 100%;
-									color: #181a20;
+									color: #0430b3;
 									text-align: center;
 									font-family: $font;
 									font-size: 13px;
@@ -202,7 +206,7 @@
 					}
 				}
 				.main-config {
-					width: 936px;
+					width: 100%;
 					align-items: center;
 					gap: 109px;
 					.list-config {
@@ -214,20 +218,19 @@
 						gap: 23px;
 						.card-config {
 							width: 296px;
-							height: 413px;
+							height: 555px;
 							margin-bottom: 7px;
-							border-radius: 12px;
-							background: #fff;
-							box-shadow: 0px 1px 4px 0px rgba(24, 26, 32, 0.07);
 							.top {
 								position: relative;
+								justify-content: space-between;
 								width: 100%;
+								align-items: center;
 								height: 240px;
 								a {
 									height: 100%;
 								}
 								img {
-									width: 100%;
+									width: 170px;
 									height: 100%;
 									object-fit: cover;
 									border-radius: 12px 12px 0 0;
@@ -244,7 +247,7 @@
 									border-radius: 6px;
 									padding: 6px 20px;
 									background: #eb6753;
-									color: #fff;
+									color: #bb1919;
 									text-align: center;
 									text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 									font-family: $font;
@@ -256,42 +259,70 @@
 										height: 16px;
 									}
 								}
-								.price-box {
-									position: absolute;
-									bottom: 20px;
-									left: 20px;
-									padding: 8px 15px;
-									align-items: center;
-									border-radius: 6px;
-									border: 1px solid rgba(255, 255, 255, 0.5);
-									background: #fff;
-									p {
-										color: #181a20;
-										font-family: $font;
-										font-size: 15px;
-										font-style: normal;
-										font-weight: 600;
-										line-height: normal;
-									}
+							}
+							.price-box {
+								position: relative;
+								padding: 8px 15px;
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								border-radius: 6px;
+								p {
+									color: #181a20;
+									font-family: $font;
+									font-size: 15px;
+									font-style: normal;
+									font-weight: 600;
+									line-height: normal;
+								}
+							}
+							.buy-box {
+								padding: 18px 15px;
+								position: relative;
+								display: flex;
+								justify-content: space-between;
+								align-items: center;
+								border-radius: 50px;
+								p {
+									color: #181a20;
+									font-family: $font;
+									font-size: 15px;
+									font-style: normal;
+									font-weight: 600;
+									line-height: normal;
+									border-radius: 50px;
+									transition: transform 0.3s, opacity 0.3s;
+								}
+								&:hover {
+									opacity: 1;
+									transform: scale(1.05);
+									background: #dbdde2;
 								}
 							}
 							.bottom {
 								width: 100%;
-								height: 173px;
+								height: 300px;
 								padding: 20px 16px 10px 16px;
+								justify-content: space-between;
+								.color img {
+									width: 120px;
+									margin-left: 80px;
+									padding: 8px;
+								}
 								.name-address {
 									width: 100%;
-									height: 48px;
+									height: 78px;
 									gap: 5px;
 									margin-bottom: 20px;
 									.name {
+										align-items: center;
 										width: 100%;
-										height: 23px;
+										height: 43px;
 										overflow: hidden;
 										p {
 											color: #181a20;
 											font-family: $font;
-											font-size: 15px;
+											font-size: 22px;
 											font-style: normal;
 											font-weight: 600;
 											line-height: normal;
@@ -299,6 +330,7 @@
 										}
 									}
 									.address {
+										align-items: center;
 										width: 100%;
 										overflow: hidden;
 										p {
@@ -312,7 +344,9 @@
 									}
 								}
 								.options {
+									margin-top: 10px;
 									flex-direction: row;
+									justify-content: space-between;
 									width: 100%;
 									height: 20px;
 									gap: 20px;
@@ -343,7 +377,7 @@
 									justify-content: space-between;
 									align-items: center;
 									.type {
-										flex-direction: row;
+										flex-direction: column;
 										align-items: center;
 										gap: 7px;
 										p {

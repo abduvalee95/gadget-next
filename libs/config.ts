@@ -4,13 +4,13 @@ export const availableOptions = ['propertyBarter', 'propertyRent'];
 
 const thisYear = new Date().getFullYear();
 
-export const propertyYears: any = [];
+export const gadgetYears: any = [];
 
 for (let i = 1970; i <= thisYear; i++) {
-	propertyYears.push(String(i));
+	gadgetYears.push(String(i));
 }
 
-export const propertySquare = [0, 25, 50, 75, 100, 125, 150, 200, 300, 500];
+// export const gadgetSquare = [0, 25, 50, 75, 100, 125, 150, 200, 300, 500];
 
 export const Messages = {
 	error1: 'Something went wrong!',
@@ -20,4 +20,4 @@ export const Messages = {
 	error5: 'Only images with jpeg, jpg, png format allowed!',
 };
 
-export const topPropertyRank = 2;
+export const topGadgetRank = 2;

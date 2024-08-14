@@ -1,32 +1,32 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { NextPage } from 'next';
-import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
-import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import PropertyBigCard from '../../libs/components/common/PropertyBigCard';
-import ReviewCard from '../../libs/components/agent/ReviewCard';
-import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
-import StarIcon from '@mui/icons-material/Star';
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import { useRouter } from 'next/router';
-import { Property } from '../../libs/types/property/property';
-import { Member } from '../../libs/types/member/member';
-import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
-import { userVar } from '../../apollo/store';
-import { PropertiesInquiry } from '../../libs/types/property/property.input';
-import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
-import { Comment } from '../../libs/types/comment/comment';
-import { CommentGroup } from '../../libs/enums/comment.enum';
-import { Messages, REACT_APP_API_URL } from '../../libs/config';
+import StarIcon from '@mui/icons-material/Star';
+import { Box, Button, Pagination, Stack, Typography } from '@mui/material';
+import { NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { CREATE_COMMENT, LIKE_TARGET_MEMBER, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { useRouter } from 'next/router';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { userVar } from '../../apollo/store';
+import { CREATE_COMMENT, LIKE_TARGET_PROPERTY, } from '../../apollo/user/mutation';
 import { GET_COMMENTS, GET_MEMBER, GET_PROPERTIES } from '../../apollo/user/query';
+import ReviewCard from '../../libs/components/agent/ReviewCard';
+import GadgetBigCard from '../../libs/components/common/GadgetBigCard';
+import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
+import { Messages, REACT_APP_API_URL } from '../../libs/config';
+import { CommentGroup } from '../../libs/enums/comment.enum';
+import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
+import { sweetErrorHandling, sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import { Comment } from '../../libs/types/comment/comment';
+import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
 import { T } from '../../libs/types/common';
+import { Gadget } from '../../libs/types/gadget/gadget';
+import { Member } from '../../libs/types/member/member';
+import { GadgetsInquiry } from '../../libs/types/gadget/gadget.input'
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),
 	},
-}); //bu tildi ozgartiryabti 
+}); //bu tildi ozgartiryabti
 
 const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -34,9 +34,9 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const user = useReactiveVar(userVar);
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
-	const [agentProperties, setAgentProperties] = useState<Property[]>([]);
-	const [propertyTotal, setPropertyTotal] = useState<number>(0);
+	const [searchFilter, setSearchFilter] = useState<GadgetsInquiry>(initialInput);
+	const [agentGadget, setAgentGadget] = useState<Gadget[]>([]);
+	const [gadgetTotal, setGadgetTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
 	const [commentTotal, setCommentTotal] = useState<number>(0);
@@ -48,7 +48,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	/** APOLLO REQUESTS **/
 	const [createComment] = useMutation(CREATE_COMMENT);
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetGadget] = useMutation(LIKE_TARGET_PROPERTY);
 
 	const {
 		loading: getMembertLoading,
@@ -58,7 +58,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	} = useQuery(GET_MEMBER, {
 		fetchPolicy: 'network-only',
 		variables: { input: agentId },
-		//propertyni qayta qayta olormasligi uchun < Boshlangich qiymati 'null' boladi  agar qiymati mavjud bolmasa Queryni Skip qilgin
+		//gadgetni qayta qayta olormasligi uchun < Boshlangich qiymati 'null' boladi  agar qiymati mavjud bolmasa Queryni Skip qilgin
 		skip: !agentId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: any) => {
@@ -82,20 +82,20 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		},
 	});
 
-	/** Tegishli PROPERTYLARIMIZNI PASDA KORSATISH UCHUN  **/
+	/** Tegishli GADGETLARIMIZNI PASDA KORSATISH UCHUN  **/
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData, // data cachelanyabti
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
+		loading: getGadgetLoading,
+		data: getGadgetData, // data cachelanyabti
+		error: getGadgetError,
+		refetch: getGadgetRefetch,
 	} = useQuery(GET_PROPERTIES, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: searchFilter },
 		skip: !searchFilter.search.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentProperties(data?.getProperties?.list);
-			setPropertyTotal(data?.getProperties?.metaCounter[0].total ?? 0);
+			setAgentGadget(data?.getGadget?.list);
+			setGadgetTotal(data?.getGadget?.metaCounter[0].total ?? 0);
 		},
 	});
 
@@ -113,7 +113,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		skip: !commentInquiry.search.commentRefId, // Agar  " " bolsa amalga oshmasin. "fdjkk" bolsa ishladi; "" bolganda falsy boladi  skip true qiymatni qabul qiladi
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentComments(data?.getComments?.list); //bunda Property larimizni qiymatni ozgartiramiz
+			setAgentComments(data?.getComments?.list); //bunda Gadget larimizni qiymatni ozgartiramiz
 			setCommentTotal(data?.getComments?.metaCounter[0]?.total ?? 0); // nullish operator
 		},
 	});
@@ -125,7 +125,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 
 	useEffect(() => {
 		if (searchFilter.search.memberId) {
-			getPropertiesRefetch({ variables: { input: searchFilter } }).then();
+			getGadgetRefetch({ variables: { input: searchFilter } }).then();
 		}
 	}, [searchFilter]);
 
@@ -145,7 +145,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		}
 	};
 
-	const propertyPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
+	const gadgetPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		setSearchFilter({ ...searchFilter });
 	};
@@ -170,26 +170,26 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	};
 
 	/** Like HANDLERS **/
-	const likePropertyHandler = async (user: any, id: string) => {
+	const likeGadgetHandler = async (user: any, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2); // Agar Login bomagan bolsa
-			//: Execute liketargetProperty
+			//: Execute liketargetGadget
 
-			await likeTargetProperty({ variables: { input: id } }); //apolloda cache bor
+			await likeTargetGadget({ variables: { input: id } }); //apolloda cache bor
 
-			//: Execute getPropertyRefetch .. ohirgi malumotni ackenddan talab qilib olish Refetch qilib olamiz
-			await getPropertiesRefetch({ input: searchFilter });
+			//: Execute getGadgetRefetch .. ohirgi malumotni ackenddan talab qilib olish Refetch qilib olamiz
+			await getGadgetRefetch({ input: searchFilter });
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (error: any) {
-			console.log('ERROR , LikeTrendProperty:', error.message);
+			console.log('ERROR , LikeTrendGadget:', error.message);
 			sweetMixinErrorAlert(error.message).then();
 		}
 	};
 
 	if (device === 'mobile') {
-		return <div>AGENT DETAIL PAGE MOBILE</div>;
+		return <div>Seller DETAIL PAGE MOBILE</div>;
 	} else {
 		return (
 			<Stack className={'agent-detail-page'}>
@@ -209,38 +209,38 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>
-							{agentProperties.map((property: Property) => {
+							{agentGadget.map((gadget: Gadget) => {
 								return (
-									<div className={'wrap-main'} key={property?._id}>
-										<PropertyBigCard
-											property={property}
-											key={property?._id}
-											likePropertyHandler={likePropertyHandler}
+									<div className={'wrap-main'} key={gadget?._id}>
+										<GadgetBigCard
+											gadget={gadget}
+											key={gadget?._id}
+											likeGadgetHandler={likeGadgetHandler}
 										/>
 									</div>
 								);
 							})}
 						</Stack>
 						<Stack className={'pagination'}>
-							{propertyTotal ? (
+							{gadgetTotal ? (
 								<>
 									<Stack className="pagination-box">
 										<Pagination
 											page={searchFilter.page}
-											count={Math.ceil(propertyTotal / searchFilter.limit) || 1}
-											onChange={propertyPaginationChangeHandler}
+											count={Math.ceil(gadgetTotal / searchFilter.limit) || 1}
+											onChange={gadgetPaginationChangeHandler}
 											shape="circular"
 											color="primary"
 										/>
 									</Stack>
 									<span>
-										Total {propertyTotal} propert{propertyTotal > 1 ? 'ies' : 'y'} available
+										Total {gadgetTotal} propert{gadgetTotal > 1 ? 'ies' : 'y'} available
 									</span>
 								</>
 							) : (
 								<div className={'no-data'}>
 									<img src="/img/icons/icoAlert.svg" alt="" />
-									<p>No properties found!</p>
+									<p>No gadget found!</p>
 								</div>
 							)}
 						</Stack>

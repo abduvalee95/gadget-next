@@ -10,30 +10,30 @@ interface EventData {
 }
 const eventsData: EventData[] = [
 	{
-		eventTitle: 'Paradise City Theme Park',
-		city: 'Incheon',
+		eventTitle: 'WVDC 2024 Apple',
+		city: 'Apple Park',
 		description:
-			'Experience magic and wonder in Incheon with a visit to the night-themed indoor theme park Wonderbox at Paradise City!',
-		imageSrc: '/img/events/INCHEON.webp',
+			'Introducing Apple Intelligence, AI for the rest of us. And exciting updates coming with iOS 18, iPadOS 18, macOS Sequoia, watchOS 11, and visionOS 2.0 !',
+		imageSrc: '/img/events/appleevent.jpg',
 	},
 	{
-		eventTitle: 'Taebaeksan Snow Festival',
+		eventTitle: 'Experience a whole new 837',
 		city: 'Seoul',
-		description: 'If you have the opportunity to travel to South Korea, do not miss the Taebaeksan Snow Festival!',
-		imageSrc: '/img/events/SEOUL.webp',
+		description: 'We’re always creating new ways for you to experience our technology. Keep tabs on upcoming events, from workshops to screenings to cultural moments!',
+		imageSrc: '/img/events/Samsungt.jpg',
 	},
 	{
-		eventTitle: 'Suseong Lake Event',
+		eventTitle: 'Xiaomi HyperOS',
 		city: 'Daegu',
-		description: 'The Suseong Lake Festival is a culture and arts festival held alongside Suseongmot Lake!',
-		imageSrc: '/img/events/DAEGU.webp',
+		description: 'A human-centric operating system designed for the "Human x Car x Home" smart ecosystem',
+		imageSrc: '/img/events/xiaomi1.webp',
 	},
 	{
-		eventTitle: 'Sand Festival',
-		city: 'Busan',
+		eventTitle: 'Xiaomi MWC 2024',
+		city: 'Barcelona',
 		description:
-			'Haeundae Sand Festival, the nation’s largest eco-friendly exhibition on sand, is held at Haeundae Beach!',
-		imageSrc: '/img/events/BUSAN.webp',
+			'Welcome to Human X Car X Home !',
+		imageSrc: '/img/events/xiaomi.webp',
 	},
 ];
 
@@ -77,7 +77,7 @@ const Events = () => {
 					<Stack className={'info-box'}>
 						<Box component={'div'} className={'left'}>
 							<span className={'white'}>Events</span>
-							<p className={'white'}>Events waiting your attention!</p>
+							<p className={'white'}>The latest. Take a look at what’s new, right now</p>
 						</Box>
 					</Stack>
 					<Stack className={'card-wrapper'}>

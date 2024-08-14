@@ -13,10 +13,14 @@ import { CaretDown } from 'phosphor-react';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import Link from 'next/link';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { useReactiveVar } from '@apollo/client';
+import { useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import { Logout } from '@mui/icons-material';
 import { REACT_APP_API_URL } from '../config';
+import { GET_NOTIFICATIONS } from '../../apollo/admin/query'
+import { T } from '../types/common'
+import { GetNotificationsInquiry } from '../types/gadget/gadget.input'
+import { Notification } from '../types/notifications/notifications'
 
 const Top = () => {
 	const device = useDeviceDetect();
@@ -33,6 +37,31 @@ const Top = () => {
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 
+	interface GetNotificationsProps {
+		initialInput: GetNotificationsInquiry;
+	}
+
+const GetNotifications = (props: GetNotificationsProps) => {
+	const { initialInput } = props;
+	const [getNotifications, setGetNotifications]= useState<Notification[]>([])
+}
+
+	/** APOLLO REQUESTS **/
+	const {
+		loading: getNotificationsLoading,
+		data: getNotificationsData,
+		error: getNotificationsError,
+		refetch: getNotificationsRefetch,
+	} = useQuery(GET_NOTIFICATIONS, {
+		fetchPolicy: 'cache-and-network',
+		// variables: { input: initialInput }
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data: T) => {
+			setGetNotifications(data?.getNotifications?.list);
+		},
+	});
+
+
 	/** LIFECYCLES **/
 	useEffect(() => {
 		if (localStorage.getItem('locale') === null) {
@@ -45,7 +74,7 @@ const Top = () => {
 
 	useEffect(() => {
 		switch (router.pathname) {
-			case '/property/detail':
+			case '/gadget/detail':
 				setBgColor(true);
 				break;
 			default:
@@ -124,7 +153,7 @@ const Top = () => {
 			},
 			'& .MuiMenuItem-root': {
 				'& .MuiSvgIcon-root': {
-					fontSize: 18,
+					fontSize: 13,
 					color: theme.palette.text.secondary,
 					marginRight: theme.spacing(1.5),
 				},
@@ -145,11 +174,11 @@ const Top = () => {
 				<Link href={'/'}>
 					<div>{t('Home')}</div>
 				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
+				<Link href={'/gadget'}>
+					<div>{t('All Gadgets')}</div>
 				</Link>
 				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
+					<div> {t('Seller')} </div>
 				</Link>
 				<Link href={'/community?articleCategory=FREE'}>
 					<div> {t('Community')} </div>
@@ -166,18 +195,18 @@ const Top = () => {
 					<Stack className={'container'}>
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
-								<img src="/img/logo/logoWhite.svg" alt="" />
+								<img src="/img/logo/iconsA.svg" alt="" />
 							</Link>
 						</Box>
 						<Box component={'div'} className={'router-box'}>
 							<Link href={'/'}>
 								<div>{t('Home')}</div>
 							</Link>
-							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
+							<Link href={'/gadget'}>
+								<div>{t('All Gadgets')}</div>
 							</Link>
 							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
+								<div> {t('Sellers')} </div>
 							</Link>
 							<Link href={'/community?articleCategory=FREE'}>
 								<div> {t('Community')} </div>
@@ -223,14 +252,19 @@ const Top = () => {
 									<div className={'join-box'}>
 										<AccountCircleOutlinedIcon />
 										<span>
-											{t('Login')} / {t('Register')}
+											{t('Sign-In')} Or {t('Register')}
 										</span>
 									</div>
 								</Link>
 							)}
 
 							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} />}
+								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} 
+
+								onClick={langClick}
+								endIcon={<CaretDown size={90} color="#616161" weight="fill" />}
+								
+								/>}
 								<Button
 									disableRipple
 									className="btn-lang"

@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import type { NextPage } from 'next';
-import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
-import { Box, List, ListItem, Stack } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
+import { useMutation, useQuery } from '@apollo/client';
 import { TabContext } from '@mui/lab';
+import { Box, List, ListItem, Stack } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import TablePagination from '@mui/material/TablePagination';
-import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
-import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
-import { Property } from '../../../libs/types/property/property';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/property.enum';
-import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
-import { PropertyUpdate } from '../../../libs/types/property/property.update';
+import Typography from '@mui/material/Typography';
+import type { NextPage } from 'next';
+import React, { useEffect, useState } from 'react';
 import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
-import { useMutation, useQuery } from '@apollo/client';
+import { PropertyPanelList } from '../../../libs/components/admin/gadgets/GadgetList';
+import withAdminLayout from '../../../libs/components/layout/LayoutAdmin';
+import { PropertyLocation, PropertyStatus } from '../../../libs/enums/gadget.enum';
+import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
 import { T } from '../../../libs/types/common';
+import { Property } from '../../../libs/types/gadget/gadget';
+import { AllPropertiesInquiry } from '../../../libs/types/gadget/gadget.input';
+import { PropertyUpdate } from '../../../libs/types/gadget/gadget.update';
 
 const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
@@ -28,7 +28,6 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 		propertiesInquiry?.search?.propertyStatus ? propertiesInquiry?.search?.propertyStatus : 'ALL',
 	);
 	const [searchType, setSearchType] = useState('ALL');
-
 
 	/** APOLLO REQUESTS **/
 	const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
@@ -242,8 +241,7 @@ AdminProperties.defaultProps = {
 		limit: 10,
 		sort: 'createdAt',
 		direction: 'DESC',
-		search: {
-		},
+		search: {},
 	},
 };
 
