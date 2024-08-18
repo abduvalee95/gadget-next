@@ -576,7 +576,7 @@ const Filter = (props: FilterType) => {
 					</p>
 					<Stack
 						className={`property-location`}
-						style={{ height: showMore ? '253px' : '115px' }}
+						// style={{ height: showMore ? '253px' : '115px' }}
 						onMouseEnter={() => setShowMore(true)}
 						onMouseLeave={() => {
 							if (!searchFilter?.search?.locationList) {
@@ -641,7 +641,7 @@ const Filter = (props: FilterType) => {
 								border: searchFilter?.search?.capacityList?.includes(64) ? '2px solid #181A20' : '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.capacityList?.includes(64) ? undefined : 'none',
 							}}
-							onClick={() => gadgetCapacitySelectHandler(64)}
+							onClick={() => gadgetCapacitySelectHandler(1)}
 						>
 							64
 						</Button>
@@ -651,37 +651,37 @@ const Filter = (props: FilterType) => {
 								border: searchFilter?.search?.capacityList?.includes(128) ? '2px solid #181A20' : '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.capacityList?.includes(128) ? undefined : 'none',
 							}}
-							onClick={() => gadgetCapacitySelectHandler(128)}
+							onClick={() => gadgetCapacitySelectHandler(2)}
 						>
 							128
 						</Button>
 						<Button
 							sx={{
 								borderRadius: 0,
-								border: searchFilter?.search?.capacityList?.includes(256) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.capacityList?.includes(256) ? undefined : 'none',
+								border: searchFilter?.search?.capacityList?.includes(3) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.capacityList?.includes(3) ? undefined : 'none',
 							}}
-							onClick={() => gadgetCapacitySelectHandler(256)}
+							onClick={() => gadgetCapacitySelectHandler(3)}
 						>
 							256
 						</Button>
 						<Button
 							sx={{
 								borderRadius: 0,
-								border: searchFilter?.search?.capacityList?.includes(512) ? '2px solid #181A20' : '1px solid #b9b9b9',
-								borderLeft: searchFilter?.search?.capacityList?.includes(512) ? undefined : 'none',
+								border: searchFilter?.search?.capacityList?.includes(4) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								borderLeft: searchFilter?.search?.capacityList?.includes(4) ? undefined : 'none',
 								borderRight: searchFilter?.search?.capacityList?.includes(512) ? undefined : 'none',
 							}}
-							onClick={() => gadgetCapacitySelectHandler(512)}
+							onClick={() => gadgetCapacitySelectHandler(4)}
 						>
 							512
 						</Button>
 						<Button
 							sx={{
 								borderRadius: '0 12px 12px 0',
-								border: searchFilter?.search?.capacityList?.includes(1) ? '2px solid #181A20' : '1px solid #b9b9b9',
+								border: searchFilter?.search?.capacityList?.includes(5) ? '2px solid #181A20' : '1px solid #b9b9b9',
 							}}
-							onClick={() => gadgetCapacitySelectHandler(1)}
+							onClick={() => gadgetCapacitySelectHandler(5)}
 						>
 							1 TB
 						</Button>

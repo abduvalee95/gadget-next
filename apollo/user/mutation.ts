@@ -334,6 +334,10 @@ export const UNSUBSCRIBE = gql`
 		}
 	}
 `;
+
+/**************************
+ *         NOTIFICATION       *
+ *************************/
 export const CREATENOTICE = gql`
 	mutation CreateNotice($input: CsInput!) {
     createNotice(input: $input) {
@@ -374,5 +378,26 @@ export const CREATENOTICE = gql`
         }
     }
 }
+`;
 
+
+/**************************
+ *         NOTIFICATION       *
+ *************************/
+export const UPDATE_NOTIFICATION = gql`
+	mutation UpdateNotification($input: NotificationUpdate!) {
+		updateNotification(input: $input) {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			notificationRefId
+			propertyId
+			articleId
+		}
+	}
 `;

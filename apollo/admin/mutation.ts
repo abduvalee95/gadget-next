@@ -162,7 +162,7 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
  *         COMMENT        *
  *************************/
 
-export const CREATENOTICE = gql`
+export const CREATE_NOTICE = gql`
 	mutation CreateNotice($input: CsInput!) {
     createNotice(input: $input) {
         noticeCategory

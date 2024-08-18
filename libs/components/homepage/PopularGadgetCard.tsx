@@ -54,7 +54,7 @@ const PopularGadgetCard = (props: PopularGadgetCardProps) => {
 							pushDetailHandler(gadget._id);
 						}}
 					>
-						{gadget.gadgetTitle}
+					<Typography>{gadget.gadgetTitle}</Typography>	
 					</strong>
 					<p className={'desc'}>{gadget.gadgetColor}</p>
 					<div className={'options'}>
@@ -98,7 +98,7 @@ const PopularGadgetCard = (props: PopularGadgetCardProps) => {
 					{gadget && gadget?.gadgetRank >= topGadgetRank ? (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
-							<span>top</span>
+							<span>Top</span>
 						</div>
 					) : (
 						''
@@ -114,7 +114,7 @@ const PopularGadgetCard = (props: PopularGadgetCardProps) => {
 							pushDetailHandler(gadget._id);
 						}}
 					>
-						{gadget.gadgetTitle}
+						<Typography>{gadget.gadgetTitle}</Typography>
 					</strong>
 					<p className={'desc'}>{gadget.gadgetColor}</p>
 					<div className={'options'}>

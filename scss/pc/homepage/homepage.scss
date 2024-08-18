@@ -211,14 +211,14 @@
 							.desc {
 								margin-top: 5px;
 								overflow: hidden;
-								color: #717171;
+								color: #888888;
 								font-family: $font;
-								font-size: 13px;
+								font-size: 14px;
 								font-style: normal;
 								font-weight: 400;
 								line-height: normal;
 								text-overflow: ellipsis;
-								white-space: nowrap;
+								white-space: wrap;
 							}
 							div .color img{
 							cursor: pointer;

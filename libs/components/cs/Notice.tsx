@@ -1,27 +1,47 @@
-import React from 'react';
-import { Stack, Box } from '@mui/material';
+import { useQuery } from '@apollo/client';
+import { Box, Stack } from '@mui/material';
+import { NextPage } from 'next';
+import { useEffect, useState } from 'react';
+import { GET_NOTICE } from '../../../apollo/admin/query';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { T } from '../../types/common';
+import { NoticeInput, NoticesInquiry } from '../../types/notice/notice.input';
+import { NoticeCategory, NoticeStatus } from '../../enums/notice.enum'
 
-const Notice = () => {
+
+const Notice: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
+	const [total, setTotal] = useState<number>(0);
+	const [noticeInquiry, setNoticeInquity] = useState<NoticesInquiry>(initialInput);
+	const [getNotices, setGetNotices] = useState<NoticeInput[]>([]);
+
+
+
 
 	/** APOLLO REQUESTS **/
+  const {
+		loading: getNoticesLoading,
+		data: getNoticesData,
+		error: getNoticesError,
+		refetch: getNoticesRefetch,
+} = useQuery(GET_NOTICE, {
+		fetchPolicy: 'network-only',
+		variables: { input: initialInput },
+		notifyOnNetworkStatusChange: true,
+		onCompleted: (data:T) => {
+				setGetNotices(data?.getNotices?.list);
+				setTotal(data?.getNotices?.metaCounter[0]?.total || 0);
+		},
+});
+console.log("getNotivce",getNotices)
 	/** LIFECYCLES **/
-	/** HANDLERS **/
+	useEffect(() => {
+		if (noticeInquiry) {
+			getNoticesRefetch({ input: noticeInquiry });
+		}
+	}, [noticeInquiry, getNoticesRefetch]);
 
-	const data = [
-		{
-			no: 1,
-			event: true,
-			title: 'Register to use and get discounts',
-			date: '01.03.2024',
-		},
-		{
-			no: 2,
-			title: "It's absolutely free to upload and trade properties",
-			date: '31.03.2024',
-		},
-	];
+	/** HANDLERS **/
 
 	if (device === 'mobile') {
 		return <div>NOTICE MOBILE</div>;
@@ -36,11 +56,12 @@ const Notice = () => {
 						<span>date</span>
 					</Box>
 					<Stack className={'bottom'}>
-						{data.map((ele: any) => (
-							<div className={`notice-card ${ele?.event && 'event'}`} key={ele.title}>
-								{ele?.event ? <div>event</div> : <span className={'notice-number'}>{ele.no}</span>}
-								<span className={'notice-title'}>{ele.title}</span>
-								<span className={'notice-date'}>{ele.date}</span>
+						{getNotices.map((ele: any,index:any) => (
+							<div className={`notice-card ${ele?.event && 'event'}`} key={ele.noticeContent}>
+								{ele?.noticeContent ? <div>event</div> : <span className={'notice-number'}>{index}</span>}
+								<span className={'notice-title'}>{ele.noticeTitle}</span>
+								<span className={'notice-title'}>{ele.noticeContent }</span>
+								<span className={'notice-date'}>{ele.createdAt}</span>
 							</div>
 						))}
 					</Stack>
@@ -49,5 +70,17 @@ const Notice = () => {
 		);
 	}
 };
+
+Notice.defaultProps = {
+	initialInput:{
+		page: 1,
+		limit: 3,
+		sort: 'createdAt',
+		direction: 'DESC',
+		search: {
+		'noticeCategory': 'TERMS'
+			},
+	}
+}
 
 export default Notice;

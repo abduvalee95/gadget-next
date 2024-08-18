@@ -1,28 +1,33 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useState } from 'react';
-import { useRouter, withRouter } from 'next/router';
-import { useTranslation } from 'next-i18next';
-import { getJwtToken, logOut, updateUserInfo } from '../auth';
-import { Stack, Box } from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
-import { alpha, styled } from '@mui/material/styles';
-import Menu, { MenuProps } from '@mui/material/Menu';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { CaretDown } from 'phosphor-react';
-import useDeviceDetect from '../hooks/useDeviceDetect';
-import Link from 'next/link';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import { useQuery, useReactiveVar } from '@apollo/client';
-import { userVar } from '../../apollo/store';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Logout } from '@mui/icons-material';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
+import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
+import { Badge, Box, IconButton, Stack, Typography } from '@mui/material';
+import Button from '@mui/material/Button';
+import Menu, { MenuProps } from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { alpha, styled } from '@mui/material/styles';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
+import { useRouter, withRouter } from 'next/router';
+import { CaretDown } from 'phosphor-react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { GET_NOTIFICATIONS } from '../../apollo/admin/query';
+import { userVar } from '../../apollo/store';
+import { UPDATE_NOTIFICATION } from '../../apollo/user/mutation';
+import { getJwtToken, logOut, updateUserInfo } from '../auth';
 import { REACT_APP_API_URL } from '../config';
-import { GET_NOTIFICATIONS } from '../../apollo/admin/query'
-import { T } from '../types/common'
-import { GetNotificationsInquiry } from '../types/gadget/gadget.input'
-import { Notification } from '../types/notifications/notifications'
+import { NotificationStatus } from '../enums/notification.enum';
+import useDeviceDetect from '../hooks/useDeviceDetect';
+import { T } from '../types/common';
+import { Notification } from '../types/notifications/notifications';
 
-const Top = () => {
+interface GetNotificationsProps {
+	initialInput: String;
+}
+
+const Top = (props: any) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const { t, i18n } = useTranslation('common');
@@ -36,15 +41,11 @@ const Top = () => {
 	const [bgColor, setBgColor] = useState<boolean>(false);
 	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
+	const [notificationAnchor, setNotificationAnchor] = useState<null | HTMLElement>(null);
+	const [getuNotifications, setGetNotifications] = useState<Notification[]>([]);
+	const notificationOpen = Boolean(notificationAnchor);
 
-	interface GetNotificationsProps {
-		initialInput: GetNotificationsInquiry;
-	}
-
-const GetNotifications = (props: GetNotificationsProps) => {
-	const { initialInput } = props;
-	const [getNotifications, setGetNotifications]= useState<Notification[]>([])
-}
+	const [updateNotification] = useMutation(UPDATE_NOTIFICATION);
 
 	/** APOLLO REQUESTS **/
 	const {
@@ -54,13 +55,13 @@ const GetNotifications = (props: GetNotificationsProps) => {
 		refetch: getNotificationsRefetch,
 	} = useQuery(GET_NOTIFICATIONS, {
 		fetchPolicy: 'cache-and-network',
-		// variables: { input: initialInput }
+		variables: { input: user._id },
+		skip: !user?._id,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setGetNotifications(data?.getNotifications?.list);
+			setGetNotifications(data?.getNotification);
 		},
 	});
-
 
 	/** LIFECYCLES **/
 	useEffect(() => {
@@ -86,6 +87,13 @@ const GetNotifications = (props: GetNotificationsProps) => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
 	}, []);
+
+	// Notification
+	useEffect(() => {
+		if (getNotificationsError) {
+			console.error('Error fetching notifications:', getNotificationsError);
+		}
+	}, [getNotificationsError]);
 
 	/** HANDLERS **/
 	const langClick = (e: any) => {
@@ -125,6 +133,35 @@ const GetNotifications = (props: GetNotificationsProps) => {
 			setAnchorEl(null);
 		}
 	};
+
+	/* NOTIFICATION HANDLER */
+
+	const handleNotificationClick = (event: any) => {
+		setNotificationAnchor(event.currentTarget);
+	};
+
+	const handleNotificationClose = () => {
+		setNotificationAnchor(null);
+	};
+
+	const handleNotificationRead = async (notification: Notification) => {
+		await updateNotification({
+			variables: { input: { _id: notification._id, notificationStatus: NotificationStatus.READ } },
+		});
+		getNotificationsRefetch();
+		router.push(
+			notification.notificationGroup === 'ARTICLE'
+				? `/community/detail?articleCategory=FREE&id=${notification.articleId}`
+				: notification.notificationGroup === 'GADGET'
+				? `gadget/detail?id=${notification.gadgetId}`
+				: notification.notificationGroup === 'MEMBER'
+				? `/agent/detail?agentId=${notification.receiverId}`
+				: '/',
+		); // Default route if none match
+	};
+
+	console.log('notifications: ', getuNotifications);
+	const unreadNotifications = getuNotifications.filter((notification) => notification.notificationStatus === 'WAIT');
 
 	const StyledMenu = styled((props: MenuProps) => (
 		<Menu
@@ -175,7 +212,7 @@ const GetNotifications = (props: GetNotificationsProps) => {
 					<div>{t('Home')}</div>
 				</Link>
 				<Link href={'/gadget'}>
-					<div>{t('All Gadgets')}</div>
+					<div>{t('Gadgets')}</div>
 				</Link>
 				<Link href={'/agent'}>
 					<div> {t('Seller')} </div>
@@ -203,7 +240,7 @@ const GetNotifications = (props: GetNotificationsProps) => {
 								<div>{t('Home')}</div>
 							</Link>
 							<Link href={'/gadget'}>
-								<div>{t('All Gadgets')}</div>
+								<div>{t('Gadgets')}</div>
 							</Link>
 							<Link href={'/agent'}>
 								<div> {t('Sellers')} </div>
@@ -257,19 +294,113 @@ const GetNotifications = (props: GetNotificationsProps) => {
 									</div>
 								</Link>
 							)}
-
 							<div className={'lan-box'}>
-								{user?._id && <NotificationsOutlinedIcon className={'notification-icon'} 
-
-								onClick={langClick}
-								endIcon={<CaretDown size={90} color="#616161" weight="fill" />}
-								
-								/>}
+								{/* Notification Start */}
+								{user?._id && (
+									<>
+										<IconButton className={'icon-cala'} onClick={handleNotificationClick}>
+											<Badge badgeContent={unreadNotifications.length} color="error">
+												<NotificationsOutlinedIcon className={'notification-icon'} />
+											</Badge>
+										</IconButton>
+										<Menu
+											anchorEl={notificationAnchor}
+											open={notificationOpen}
+											onClose={handleNotificationClose}
+											PaperProps={{
+												elevation: 1,
+												sx: {
+													marginTop: '10px',
+													minWidth: '300px',
+													width: '400px',
+													background: 'none',
+													borderRadius: '22px',
+													maxHeight: '200px',
+													overflowY: 'auto',
+												},
+											}}
+											MenuListProps={{
+												sx: {
+													padding: 0,
+												},
+											}}
+										>
+											{getuNotifications.length === 0 ? (
+												<MenuItem
+													sx={{
+														display: 'flex',
+														flexDirection: 'column',
+														alignItems: 'center',
+														justifyContent: 'center',
+														color: '#fff',
+														height: '100px',
+													}}
+												>
+													{t('No new notifications')}
+												</MenuItem>
+											) : (
+												getuNotifications.map((notification: any) => (
+													<MenuItem
+														key={notification._id}
+														className={'notification-items'}
+														onClick={() => handleNotificationRead(notification)}
+														sx={{
+															display: 'flex',
+															flexDirection: 'column',
+															alignItems: 'flex-start',
+															backgroundColor:
+																notification.notificationStatus === NotificationStatus.WAIT ? '#331383' : '#838383',
+															'&:hover': {
+																backgroundColor:
+																	notification.notificationStatus === NotificationStatus.WAIT
+																		? '#2600ff7c'
+																		: '#ff000079',
+															},
+															borderRadius: '10px',
+															marginBottom: '7px',
+															padding: '15px 20px',
+															transition: 'background-color 0.4s ease',
+														}}
+													>
+														<div>
+															<Typography
+																variant="subtitle1"
+																sx={{
+																	fontWeight: '700',
+																	fontFamily: 'Nunito',
+																	fontSize: '16px',
+																	display: 'flex',
+																	flexDirection: 'row',
+																	alignItems: 'center',
+																}}
+															>
+																<NotificationsActiveIcon
+																	sx={{ fontSize: '16px', marginRight: '3px', color: '#e50b0b' }}
+																/>{' '}
+																{notification.notificationTitle}
+															</Typography>
+															<Typography
+																variant="body2"
+																sx={{ margin: '0.5px 0', fontFamily: 'Nunito', fontSize: '15px' }}
+															>
+																{notification.notificationDesc}
+															</Typography>
+															<Typography variant="caption" sx={{ color: 'gray' }}>
+																{notification.createdAt}
+															</Typography>
+														</div>
+													</MenuItem>
+												))
+											)}
+										</Menu>
+									</>
+								)}
+							{/* End NOtification */}
 								<Button
 									disableRipple
 									className="btn-lang"
 									onClick={langClick}
-									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
+									endIcon={<CaretDown size={12} color="#616161" weight="fill" />}
 								>
 									<Box component={'div'} className={'flag'}>
 										{lang !== null ? (
@@ -320,5 +451,4 @@ const GetNotifications = (props: GetNotificationsProps) => {
 		);
 	}
 };
-
 export default withRouter(Top);

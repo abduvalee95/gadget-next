@@ -117,15 +117,14 @@ const TrendGadgetCard = (props: TrendGadgetCardProps) => {
 					<div className={'options'}>
 						<div>
 
-				
-							<span>{gadget.gadgetWeight} </span>
+						<span><SmartphoneOutlined/></span>
+							<span>{gadget.gadgetWeight}mg</span>
 						</div>
 						<div>
 							<span><DriveFolderUploadTwoTone/></span>
 							<span>{gadget.gadgetCapacity} GB</span>
 						</div>
 						<div>
-						<span><SmartphoneOutlined/></span>
 							{/* <span>{gadget.gadgetSquare} display</span> */}
 						</div>
 					</div>

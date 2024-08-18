@@ -163,7 +163,6 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
 /**************************
  *         COMMENT        *
  *************************/
-
 export const GET_COMMENTS = gql`
 	query GetComments($input: CommentsInquiry!) {
 		getComments(input: $input) {
@@ -212,7 +211,7 @@ export const GET_COMMENTS = gql`
  *************************/
 
 export const GET_NOTIFICATIONS = gql`
-	query GetNotification($input: NotificationInput!) {
+	query GetNotification($input: String!) {
     getNotification(input: $input) {
         memberId
         notificationRefId
@@ -225,44 +224,12 @@ export const GET_NOTIFICATIONS = gql`
         articleId
         createdAt
         updatedAt
-        memberData {
-            _id
-            memberType
-            memberStatus
-            memberAuthType
-            memberPhone
-            memberNick
-            memberFullName
-            memberImage
-            memberAddress
-            memberDesc
-            memberGadgets
-            memberArticles
-            memberFollowers
-            memberFollowings
-            memberPoints
-            memberLikes
-            memberViews
-            memberComments
-            memberRank
-            memberWarnings
-            memberBlocks
-            deletedAt
-            createdAt
-            updatedAt
-            accessToken
-            notifications
-        }
     }
-}
-
-
-`;
+}`;
 
 /**************************
  *          GET_NOTICE        *
  *************************/
-
 export const GET_NOTICE = gql`
 query GetNotices($input: NoticesInquiry!) {
     getNotices(input: $input) {
@@ -308,5 +275,4 @@ query GetNotices($input: NoticesInquiry!) {
         }
     }
 }
-
 `;
