@@ -3,7 +3,7 @@ import { Pagination, Stack, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { GET_PROPERTY} from '../../../apollo/user/query';
+import { GET_PROPERTIES} from '../../../apollo/user/query';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { T } from '../../types/common';
 import { Gadget } from '../../types/gadget/gadget';
@@ -20,11 +20,11 @@ const MyGadgets: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const {
-		loading: getGadgetsLoadig,
+		loading: getGadgetsLoading,
 		data: getGadgetsData,
 		error: getGadgetsError,
 		refetch: getGadgetsRefetch,
-	} = useQuery(GET_PROPERTY, {
+	} = useQuery(GET_PROPERTIES, {
 		fetchPolicy: 'network-only', // faqat backendga murojat qiladi
 		variables: { input: searchFilter },
 		skip: !searchFilter?.search?.memberId,
@@ -53,7 +53,7 @@ const MyGadgets: NextPage = ({ initialInput, ...props }: any) => {
 		return <div>NESTAR GADGETS MOBILE</div>;
 	} else {
 		return (
-			<div id="member-gadgets-page">
+			<div id="member-properties-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
 						<Typography className="main-title">Gadgets</Typography>
@@ -72,7 +72,7 @@ const MyGadgets: NextPage = ({ initialInput, ...props }: any) => {
 						{agentGadgets?.length === 0 && (
 							<div className={'no-data'}>
 								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Gadget found!</p>
+								<p>No Gadget!</p>
 							</div>
 						)}
 						{agentGadgets?.map((gadget: Gadget) => {

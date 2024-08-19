@@ -54,7 +54,7 @@ export const GadgetCard = (props: GadgetCardProps) => {
 		return <div>MOBILE GADGET CARD</div>;
 	} else
 		return (
-			<Stack className="gadget-card-box">
+			<Stack className="property-card-box">
 				<Stack className="image-box" onClick={() => pushGadgetDetail(gadget?._id)}>
 					<img src={`${process.env.REACT_APP_API_URL}/${gadget.gadgetImages[0]}`} alt="" />
 				</Stack>

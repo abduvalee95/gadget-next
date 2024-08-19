@@ -36,15 +36,15 @@ const withLayoutBasic = (Component: any) => {
 				case '/agent':
 					title = 'Agents';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.webp';
+					bgImage = '/img/xiaomi2.webp';
 					break;
 				case '/agent/detail':
 					title = 'Agent Page';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/xiaomi.webp';
 					break;
 				case '/mypage':
-					title = 'my page';
+					title = 'My page';
 					desc = 'Home / For Rent';
 					bgImage = '/img/banner/header1.svg';
 					break;
@@ -61,18 +61,18 @@ const withLayoutBasic = (Component: any) => {
 				case '/cs':
 					title = 'CS';
 					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/xiaomi.webp';
 					break;
 				case '/account/join':
 					title = 'Login/Signup';
 					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
+					bgImage = '/img/xiaomi.webp';
 					setAuthHeader(true);
 					break;
 				case '/member':
 					title = 'Member Page';
 					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
+					bgImage = '/img/video.png';
 					break;
 				default:
 					break;
@@ -94,7 +94,7 @@ const withLayoutBasic = (Component: any) => {
 				<>
 					<Head>
 						<title>Gadget</title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`Gadget`} />
 					</Head>
 					<Stack id="mobile-wrap">
 						<Stack id={'top'}>
@@ -116,7 +116,7 @@ const withLayoutBasic = (Component: any) => {
 				<>
 					<Head>
 						<title>GADGET </title>
-						<meta name={'title'} content={`Nestar`} />
+						<meta name={'title'} content={`Gadget`} />
 					</Head>
 					<Stack id="pc-wrap">
 						<Stack id={'top'}>
@@ -127,8 +127,7 @@ const withLayoutBasic = (Component: any) => {
 							className={`header-basic ${authHeader && 'auth'}`}
 							style={{
 								backgroundImage: `url(${memoizedValues.bgImage})`,
-								backgroundSize: 'contain',
-
+								backgroundSize: 'cover',
 							}}
 						>
 							<Stack className={'container'}>

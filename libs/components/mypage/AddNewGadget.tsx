@@ -338,7 +338,7 @@ const AddGadget = ({ initialValues, ...props }: any) => {
 										<option disabled={true} selected={true} value={'select'}>
 											Select
 										</option>
-										{[1, 2, 3, 4, 5].map((capacity: number) => (
+										{[64, 128, 256, 512, 1].map((capacity: number) => (
 											<option value={`${capacity}`}>{capacity}</option>
 										))}
 									</select>

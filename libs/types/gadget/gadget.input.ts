@@ -51,7 +51,7 @@ interface APISearch {
 	gadgetStatus?: GadgetStatus;
 }
 
-export interface SellerGadgetsInquiry {
+export interface AgentGadgetsInquiry {
 	page: number;
 	limit: number;
 	sort?: string;

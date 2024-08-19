@@ -35,7 +35,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 	const [agentId, setAgentId] = useState<string | null>(null);
 	const [agent, setAgent] = useState<Member | null>(null);
 	const [searchFilter, setSearchFilter] = useState<GadgetsInquiry>(initialInput);
-	const [agentGadget, setAgentGadget] = useState<Gadget[]>([]);
+	const [agentGadgets, setAgentGadgets] = useState<Gadget[]>([]);
 	const [gadgetTotal, setGadgetTotal] = useState<number>(0);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [agentComments, setAgentComments] = useState<Comment[]>([]);
@@ -94,8 +94,8 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 		skip: !searchFilter.search.memberId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentGadget(data?.getGadget?.list);
-			setGadgetTotal(data?.getGadget?.metaCounter[0].total ?? 0);
+			setAgentGadgets(data?.getGadgets?.list);
+			setGadgetTotal(data?.getGadgets?.metaCounter[0].total ?? 0);
 		},
 	});
 
@@ -209,7 +209,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 					</Stack>
 					<Stack className={'agent-home-list'}>
 						<Stack className={'card-wrap'}>
-							{agentGadget.map((gadget: Gadget) => {
+							{agentGadgets.map((gadget: Gadget) => {
 								return (
 									<div className={'wrap-main'} key={gadget?._id}>
 										<GadgetBigCard
@@ -240,7 +240,7 @@ const AgentDetail: NextPage = ({ initialInput, initialComment, ...props }: any) 
 							) : (
 								<div className={'no-data'}>
 									<img src="/img/icons/icoAlert.svg" alt="" />
-									<p>No gadget found!</p>
+									<p>No gadget!</p>
 								</div>
 							)}
 						</Stack>

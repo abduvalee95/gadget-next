@@ -232,7 +232,7 @@ const Top = (props: any) => {
 					<Stack className={'container'}>
 						<Box component={'div'} className={'logo-box'}>
 							<Link href={'/'}>
-								<img src="/img/logo/iconsA.svg" alt="" />
+								<img src="/img/logo/apple1.svg" alt="" />
 							</Link>
 						</Box>
 						<Box component={'div'} className={'router-box'}>

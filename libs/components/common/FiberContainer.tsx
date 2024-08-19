@@ -79,11 +79,11 @@ export default function FiberContainer() {
           </Scroll>
           <Scroll html>
             <div style={{ transform: 'translate3d(65vw, 192vh, 0)' }}>
-              PMNDRS Pendant lamp
+              APPLE
               <br />
-              bronze, 38 cm
+              SAMSUNG
               <br />
-              CHF 59.95
+              XIAOMI
               <br />
             </div>
           </Scroll>
@@ -154,11 +154,11 @@ function Images() {
   return (
     <group ref={group}>
       <Image position={[-2, 0, 0]} scale={[4, height, 1]} url="img/fiber/img14.png" />
-      <Image position={[2, 0, 3]} scale={3} url="img/fiber/img6.jpg" />
-      <Image position={[-2.05, -height, 6]} scale={[1, 3, 1]} url="img/fiber/img2.jpg" />
-      <Image position={[-0.6, -height, 9]} scale={[1, 2, 1]} url="img/fiber/img3.jpg" />
-      <Image position={[0.75, -height, 10.5]} scale={1.5} url="img/fiber/img5.jpg" />
-      <Image position={[0, -height * 1.5, 7.5]} scale={[1.5, 3, 1]} url="img/fiber/img6.jpg" />
+      <Image position={[2, 0, 3]} scale={3} url="img/fiber/iphone15.webp" />
+      <Image position={[-2.05, -height, 6]} scale={[1, 3, 1]} url="img/fiber/img2.png" />
+      <Image position={[-0.6, -height, 9]} scale={[1, 2, 1]} url="img/fiber/mi.png" />
+      <Image position={[0.75, -height, 10.5]} scale={1.5} url="img/fiber/zFold6.webp" />
+      <Image position={[0, -height * 1.5, 8.5]} scale={[1.5, 3, 1]} url="img/fiber/camera15.webp" />
       <Image position={[0, -height * 2 - height / 4, 0]} scale={[width, height / 3, 1]} url="img/fiber/titan.gif" />
     </group>
   )

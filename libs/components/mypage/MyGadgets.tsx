@@ -12,11 +12,11 @@ import { T } from '../../types/common';
 import { Gadget } from '../../types/gadget/gadget';
 import { GET_AGENT_PROPERTIES } from '../../../apollo/user/query'
 import { GadgetCard } from './GadgetCard'
-import { SellerGadgetsInquiry } from '../../types/gadget/gadget.input'
+import { AgentGadgetsInquiry } from '../../types/gadget/gadget.input'
 
 const MyGadgets: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
-	const [searchFilter, setSearchFilter] = useState<SellerGadgetsInquiry>(initialInput);
+	const [searchFilter, setSearchFilter] = useState<AgentGadgetsInquiry>(initialInput);
 	const [agentGadgets, setAgentGadgets] = useState<Gadget[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const user = useReactiveVar(userVar);
@@ -37,8 +37,8 @@ const MyGadgets: NextPage = ({ initialInput, ...props }: any) => {
 		},
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setAgentGadgets(data?.getAgentGadgets?.list);
-			setTotal(data?.getAgentGadgets?.metaCounter[0]?.total ?? 0);
+			setAgentGadgets(data?.getSellerGadgets?.list);
+			setTotal(data?.getSellerGadgets?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
@@ -98,8 +98,8 @@ const MyGadgets: NextPage = ({ initialInput, ...props }: any) => {
 			<div id="my-property-page">
 				<Stack className="main-title-box">
 					<Stack className="right-box">
-						<Typography className="main-title">My Gadgets</Typography>
-						<Typography className="sub-title">We are glad to see you again!</Typography>
+						<Typography className="main-title">My Products</Typography>
+						<Typography className="sub-title">WELCOME TO YOUR STORE!</Typography>
 					</Stack>
 				</Stack>
 				<Stack className="property-list-box">

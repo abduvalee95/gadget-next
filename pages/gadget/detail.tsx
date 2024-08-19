@@ -456,9 +456,10 @@ const GadgetDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 								</Stack>
 								<Stack className={'floor-plans-config'}>
-									<Typography className={'title'}>Floor Plans</Typography>
+									<Typography className={'title'}>Specs</Typography>
 									<Stack className={'image-box'}>
-										<img src={'/img/gadget/floorPlan.png'} alt={'image'} />
+										{/* <video src={'/img/video/pcdis.mp4'}/> */}
+										<img src={'/img/xiaomi3.webp'} alt={'image'} />
 									</Stack>
 								</Stack>
 								<Stack className={'address-config'}>

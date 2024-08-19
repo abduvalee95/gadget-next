@@ -99,7 +99,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		setOpenCapacity(false);
 	};
 
-	const capacitytateChangeHandler = () => {
+	const capacityStateChangeHandler = () => {
 		setOpenCapacity((prev) => !prev);
 		setOpenType(false);
 		setOpenLocation(false);
@@ -139,7 +139,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						typeList: [value],
 					},
 				});
-				capacitytateChangeHandler();
+				capacityStateChangeHandler();
 			} catch (err: any) {
 				console.log('ERROR, gadgetTypeSelectHandler:', err);
 			}
@@ -329,7 +329,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Gadget type')} </span>
 							<ExpandMoreIcon />
 						</Box>
-						<Box className={`box ${openCapacity ? 'on' : ''}`} onClick={capacitytateChangeHandler}>
+						<Box className={`box ${openCapacity ? 'on' : ''}`} onClick={capacityStateChangeHandler}>
 							<span>
 								{searchFilter?.search?.capacityList ? `${searchFilter?.search?.capacityList[0]} capacity}` : t('Capacity')}
 							</span>

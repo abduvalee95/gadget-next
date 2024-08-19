@@ -224,7 +224,6 @@ export const GET_AGENT_PROPERTIES = gql`
 				gadgetColor
 				gadgetTitle
 				gadgetPrice
-				
 				gadgetWeight
 				gadgetCapacity
 				gadgetViews
@@ -233,8 +232,6 @@ export const GET_AGENT_PROPERTIES = gql`
 				gadgetRank
 				gadgetImages
 				gadgetDesc
-				
-				
 				memberId
 				soldAt
 				deletedAt
@@ -508,11 +505,6 @@ export const GET_MEMBER_FOLLOWERS = gql`
 				followerId
 				createdAt
 				updatedAt
-				meLiked {
-					memberId
-					likeRefId
-					myFavorite
-				}
 				meFollowed {
 					followingId
 					followerId

@@ -1,12 +1,12 @@
-import React, { useCallback, useState } from 'react';
-import { NextPage } from 'next';
-import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
-import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
 import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack } from '@mui/material';
-import { useRouter } from 'next/router';
-import { logIn, signUp } from '../../libs/auth';
-import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
+import { NextPage } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
+import { useCallback, useState } from 'react';
+import { logIn, signUp } from '../../libs/auth';
+import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
+import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
+import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -73,8 +73,8 @@ const Join: NextPage = () => {
 						<Stack className={'left'}>
 							{/* @ts-ignore */}
 							<Box className={'logo'}>
-								<img src="/img/logo/logoText.svg" alt="" />
-								<span>Nestar</span>
+								<img src="/img/logo/apple1.svg" alt="" />
+								<span>Gadget</span>
 							</Box>
 							<Box className={'info'}>
 								<span>{loginView ? 'login' : 'signup'}</span>
@@ -150,7 +150,7 @@ const Join: NextPage = () => {
 															checked={input?.type == 'AGENT'}
 														/>
 													}
-													label="Agent"
+													label="Seller"
 												/>
 											</FormGroup>
 										</div>
@@ -182,7 +182,7 @@ const Join: NextPage = () => {
 										onClick={doSignUp}
 										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
 									>
-										SIGNUP
+										Register
 									</Button>
 								)}
 							</Box>
@@ -195,7 +195,7 @@ const Join: NextPage = () => {
 												viewChangeHandler(false);
 											}}
 										>
-											SIGNUP
+											Register
 										</b>
 									</p>
 								) : (
@@ -206,7 +206,7 @@ const Join: NextPage = () => {
 								)}
 							</Box>
 						</Stack>
-						<Stack className={'right'}></Stack>
+
 					</Stack>
 				</Stack>
 			</Stack>

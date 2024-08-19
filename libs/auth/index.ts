@@ -1,9 +1,9 @@
 import decodeJWT from 'jwt-decode';
 import { initializeApollo } from '../../apollo/client';
 import { userVar } from '../../apollo/store';
-import { CustomJwtPayload } from '../types/customJwtPayload';
-import { sweetMixinErrorAlert } from '../sweetAlert';
 import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
+import { sweetMixinErrorAlert } from '../sweetAlert';
+import { CustomJwtPayload } from '../types/customJwtPayload';
 
 export function getJwtToken(): any {
 	if (typeof window !== 'undefined') {
@@ -150,13 +150,14 @@ export const updateUserInfo = (jwtToken: any) => {
 		memberViews: claims.memberViews,
 		memberWarnings: claims.memberWarnings,
 		memberBlocks: claims.memberBlocks,
+		notifications: claims.notifications,
 	});
 };
 
 export const logOut = () => {
 	deleteStorage();
 	deleteUserInfo();
-	window.location.reload()
+	window.location.reload();
 };
 
 const deleteStorage = () => {
@@ -184,5 +185,6 @@ const deleteUserInfo = () => {
 		memberViews: 0,
 		memberWarnings: 0,
 		memberBlocks: 0,
+		notifications: 0,
 	});
 };
