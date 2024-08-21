@@ -8,14 +8,9 @@ export interface Notice {
 	noticeStatus: NoticeStatus;
 	noticeTitle: string;
 	noticeContent: string;
-	articleImage: string;
-	articleViews: number;
-	articleLikes: number;
-	articleComments: number;
-	memberId: string;
 	createdAt: Date;
 	updatedAt: Date;
-	/** from aggregation **/
+	memberId: string;
 	memberData?: Member;
 }
 

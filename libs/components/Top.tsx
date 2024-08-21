@@ -89,11 +89,6 @@ const Top = (props: any) => {
 	}, []);
 
 	// Notification
-	useEffect(() => {
-		if (getNotificationsError) {
-			console.error('Error fetching notifications:', getNotificationsError);
-		}
-	}, [getNotificationsError]);
 
 	/** HANDLERS **/
 	const langClick = (e: any) => {

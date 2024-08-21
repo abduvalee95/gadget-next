@@ -4,15 +4,11 @@ import { Member } from '../member/member'
 import { Notices } from './notice'
 
 export interface NoticeInput {
-	_id: string;
 	noticeCategory: NoticeCategory;
 	noticeTitle: string;
 	noticeContent: string;
 	memberId?: string;
 	memberData?: Member;
-	createdAt: Date;
-	updatedAt: Date;
-
 }
 interface NAISearch {
 	noticeCategory: NoticeCategory;
@@ -33,6 +29,7 @@ export interface NoticesInquiry {
 interface NBAISearch {
 	noticeStatus?: NoticeStatus;
 	noticeCategory?: NoticeCategory;
+	text?: string;
 }
 
 export interface AllNoticesInquiry {

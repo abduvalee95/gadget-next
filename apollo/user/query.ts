@@ -597,3 +597,25 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 		}
 	}
 `;
+
+
+/**************************
+ *         FAQ       *
+ *************************/
+export const GET_FAQS = gql`
+	query GetFaqs($input: FaqInquiry!) {
+		getFaqs(input: $input) {
+			list {
+				_id
+				faqCategory
+				faqStatus
+				faqTitle
+				faqContent
+				faqViews
+				memberId
+				createdAt
+				updatedAt
+			}
+		}
+	}
+`;

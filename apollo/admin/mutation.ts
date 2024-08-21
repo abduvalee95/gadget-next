@@ -159,7 +159,7 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
 `;
 
 /**************************
- *         COMMENT        *
+ *         NOTICE        *
  *************************/
 
 export const CREATE_NOTICE = gql`
@@ -172,33 +172,87 @@ export const CREATE_NOTICE = gql`
         memberId
         createdAt
         updatedAt
-        memberData {
-            _id
-            memberType
-            memberStatus
-            memberAuthType
-            memberPhone
-            memberNick
-            memberFullName
-            memberImage
-            memberAddress
-            memberDesc
-            memberGadgets
-            memberArticles
-            memberFollowers
-            memberFollowings
-            memberPoints
-            memberLikes
-            memberViews
-            memberComments
-            memberRank
-            memberWarnings
-            memberBlocks
-            deletedAt
-            createdAt
-            updatedAt
-            accessToken
-            notifications
-        }
     }
 }`;
+
+export const UPDATE_NOTICE_BY_ADMIN = gql`
+	mutation UpdateNoticeByAdmin($input: NoticeUpdate!) {
+		updateNoticeByAdmin(noticeId: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const REMOVE_NOTICE_BY_ADMIN = gql`
+	mutation RemoveNoticeByAdmin($input: String!) {
+		removeNoticeByAdmin(noticeId: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
+ *        FAQ        *
+ *************************/
+
+export const CREATE_FAQ_BY_ADMIN = gql`
+	mutation CreateFaqByAdmin($input: FaqInput!) {
+		createFaqByAdmin(input: $input) {
+			_id
+			faqCategory
+			faqStatus
+			faqTitle
+			faqContent
+			faqViews
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_FAQ_BY_ADMIN = gql`
+	mutation UpdateFaqByAdmin($input: FaqUpdate!) {
+		updateFaqByAdmin(faqId: $input) {
+			_id
+			faqCategory
+			faqStatus
+			faqTitle
+			faqContent
+			faqViews
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const REMOVE_FAQ_BY_ADMIN = gql`
+	mutation RemoveFaqByAdmin($input: String!) {
+		removeFaqByAdmin(faqId: $input) {
+			_id
+			faqCategory
+			faqStatus
+			faqTitle
+			faqContent
+			faqViews
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;

@@ -276,3 +276,25 @@ query GetNotices($input: NoticesInquiry!) {
     }
 }
 `;
+
+/**************************
+ *         FAQ       *
+ *************************/
+
+export const GET_ALL_FAQS_BY_ADMIN = gql`
+	query GetAllFaqsByAdmin($input: AllFaqsInquiry!) {
+		getAllFaqsByAdmin(input: $input) {
+			list {
+				_id
+				faqCategory
+				faqStatus
+				faqTitle
+				faqContent
+				faqViews
+				memberId
+				createdAt
+				updatedAt
+			}
+		}
+	}
+`;

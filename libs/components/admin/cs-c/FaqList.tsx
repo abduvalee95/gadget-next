@@ -19,12 +19,21 @@ import { Stack } from '@mui/material';
 
 interface Data {
 	category: string;
-	qna_case_status: string;
 	title: string;
 	writer: string;
 	date: string;
 	status: string;
 	id?: string;
+}
+
+function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
+	if (b[orderBy] < a[orderBy]) {
+		return -1;
+	}
+	if (b[orderBy] > a[orderBy]) {
+		return 1;
+	}
+	return 0;
 }
 
 type Order = 'asc' | 'desc';
@@ -49,6 +58,7 @@ const headCells: readonly HeadCell[] = [
 		disablePadding: false,
 		label: 'TITLE',
 	},
+
 	{
 		id: 'writer',
 		numeric: true,
@@ -62,10 +72,10 @@ const headCells: readonly HeadCell[] = [
 		label: 'DATE',
 	},
 	{
-		id: 'qna_case_status',
+		id: 'status',
 		numeric: false,
 		disablePadding: false,
-		label: 'QNA STATUS',
+		label: 'STATUS',
 	},
 ];
 
@@ -98,7 +108,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 	);
 }
 
-interface InquiryPanelListType {
+interface FaqArticlesPanelListType {
 	dense?: boolean;
 	membersData?: any;
 	searchMembers?: any;
@@ -108,7 +118,7 @@ interface InquiryPanelListType {
 	generateMentorTypeHandle?: any;
 }
 
-export const InquiryList = (props: InquiryPanelListType) => {
+export const FaqArticlesPanelList = (props: FaqArticlesPanelListType) => {
 	const {
 		dense,
 		membersData,
@@ -169,12 +179,12 @@ export const InquiryList = (props: InquiryPanelListType) => {
 											TransitionComponent={Fade}
 											sx={{ p: 1 }}
 										>
-											<MenuItem onClick={(e: any) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
+											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
 												<Typography variant={'subtitle1'} component={'span'}>
 													MENTOR
 												</Typography>
 											</MenuItem>
-											<MenuItem onClick={(e: any) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
+											<MenuItem onClick={(e) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
 												<Typography variant={'subtitle1'} component={'span'}>
 													USER
 												</Typography>

@@ -1,0 +1,15 @@
+export enum FaqCategory {
+	GADGET = 'GADGET',
+	PAYMENTS = 'PAYMENTS',
+	BUYERS = 'BUYERS',
+	AGENTS = 'AGENTS',
+	MEMBERSHIP = 'MEMBERSHIP',
+	COMMUNITY = 'COMMUNITY',
+	OTHER = 'OTHER',
+}
+
+export enum FaqStatus {
+	HOLD = 'HOLD',
+	ACTIVE = 'ACTIVE',
+	DELETE = 'DELETE',
+}
