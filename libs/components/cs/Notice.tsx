@@ -15,9 +15,6 @@ const Notice: NextPage = ({ initialInput, ...props }: any) => {
 	const [noticeInquiry, setNoticeInquity] = useState<NoticesInquiry>(initialInput);
 	const [getNotices, setGetNotices] = useState<NoticeInput[]>([]);
 
-
-
-
 	/** APOLLO REQUESTS **/
   const {
 		loading: getNoticesLoading,

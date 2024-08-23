@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   gadget-next:
     container_name: gadget-next
