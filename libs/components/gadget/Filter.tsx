@@ -572,11 +572,11 @@ const Filter = (props: FilterType) => {
 				</Stack>
 				<Stack className={'find-your-home'} mb={'30px'}>
 					<p className={'title'} style={{ textShadow: '0px 3px 4px #b9b9b9' }}>
-						Location
+						Locations
 					</p>
 					<Stack
 						className={`property-location`}
-						// style={{ height: showMore ? '253px' : '115px' }}
+						style={{ height: showMore ? '253px' : '115px' }}
 						onMouseEnter={() => setShowMore(true)}
 						onMouseLeave={() => {
 							if (!searchFilter?.search?.locationList) {
@@ -661,7 +661,7 @@ const Filter = (props: FilterType) => {
 								border: searchFilter?.search?.capacityList?.includes(256) ? '2px solid #181A20' : '1px solid #b9b9b9',
 								borderLeft: searchFilter?.search?.capacityList?.includes(256) ? undefined : 'none',
 							}}
-							onClick={() => gadgetCapacitySelectHandler(3)}
+							onClick={() => gadgetCapacitySelectHandler(256)}
 						>
 							256
 						</Button>

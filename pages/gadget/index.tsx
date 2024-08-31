@@ -221,7 +221,7 @@ const GadgetList: NextPage = ({ initialInput, ...props }: any) => {
 GadgetList.defaultProps = {
 	initialInput: {
 		page: 1,
-		limit: 3,
+		limit: 8,
 		sort: 'createdAt',
 		direction: 'DESC',
 		search: {
