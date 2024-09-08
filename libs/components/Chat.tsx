@@ -30,7 +30,7 @@ const NewMessage = (type: any) => {
 	} else {
 		return (
 			<Box flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }} component={'div'}>
-				<Avatar alt={'jonik'} src={'/img/profile/defaultUser.svg'} />
+				<Avatar alt={'user'} src={'/img/profile/defaultUser.svg'} />
 				<div className={'msg_left'}></div>
 			</Box>
 		);

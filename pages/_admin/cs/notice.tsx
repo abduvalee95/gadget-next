@@ -51,8 +51,8 @@ const AdminNotice: NextPage = ({ initialInquiry, ...props }: any) => {
 		variables: { input: noticesInquiry },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setNotices(data?.getAllNoticesByAdmin?.list);
-			setNoticeTotal(data?.getAllNoticesByAdmin?.metaCounter[0]?.total ?? 0);
+			setNotices(data?.getNotices?.list);
+			setNoticeTotal(data?.getNotices?.metaCounter[0]?.total ?? 0);
 		},
 	});
 

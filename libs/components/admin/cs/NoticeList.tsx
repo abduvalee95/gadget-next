@@ -25,6 +25,7 @@ import React, { useState } from 'react';
 import Moment from 'react-moment';
 import { NoticeStatus } from '../../../enums/notice.enum';
 import { Notice } from '../../../types/notice/notice';
+import { useQuery } from '@apollo/client'
 
 type Order = 'asc' | 'desc';
 
@@ -248,6 +249,7 @@ export const NoticeList = (props: NoticeListType) => {
 	const router = useRouter();
 
 	/** APOLLO REQUESTS **/
+
 	/** LIFECYCLES **/
 	/** HANDLERS **/
 
