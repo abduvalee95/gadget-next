@@ -382,6 +382,27 @@ export const CREATENOTICE = gql`
 
 
 /**************************
+ *         MESSAGE       *
+ *************************/
+
+export const CREATE_MESSAGE = gql`
+	mutation CreateMessage($input: MessageInput!) {
+		createMessage(input: $input) {
+			_id
+			messageStatus
+			senderName
+			senderPhone
+			senderEmail
+			messageDesc
+			messageRefId
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+/**************************
  *         NOTIFICATION       *
  *************************/
 export const UPDATE_NOTIFICATION = gql`
@@ -395,8 +416,8 @@ export const UPDATE_NOTIFICATION = gql`
 			notificationDesc
 			authorId
 			receiverId
-			notificationRefId
-			propertyId
+			messageId
+			gadgetId
 			articleId
 		}
 	}

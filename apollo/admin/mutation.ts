@@ -39,64 +39,62 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 
 export const UPDATE_GADGET_BY_ADMIN = gql`
 	mutation UpdateGadgetByAdmin($input: GadgetUpdate!) {
-    updateGadgetByAdmin(input: $input) {
-        _id
-        gadgetType
-        gadgetStatus
-        gadgetLocation
-        gadgetColor
-        gadgetTitle
-        gadgetPrice
+		updateGadgetByAdmin(input: $input) {
+			_id
+			gadgetType
+			gadgetStatus
+			gadgetLocation
+			gadgetColor
+			gadgetTitle
+			gadgetPrice
 
-        gadgetWeight
-        gadgetCapacity
-        gadgetViews
-        gadgetLikes
-        gadgetComments
-        gadgetRank
-        gadgetImages
-        gadgetDesc
-        
-        
-        memberId
-        soldAt
-        deletedAt
-        constructedAt
-        createdAt
-        updatedAt
-    }
-}
+			gadgetWeight
+			gadgetCapacity
+			gadgetViews
+			gadgetLikes
+			gadgetComments
+			gadgetRank
+			gadgetImages
+			gadgetDesc
+
+			memberId
+			soldAt
+			deletedAt
+			constructedAt
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 export const REMOVE_GADGET_BY_ADMIN = gql`
 	mutation RemoveGadgetByAdmin($input: String!) {
-    removeGadgetByAdmin(gadgetId: $input) {
-        _id
-        gadgetType
-        gadgetStatus
-        gadgetLocation
-        gadgetColor
-        gadgetTitle
-        gadgetPrice
-        
-        gadgetWeight
-        gadgetCapacity
-        gadgetViews
-        gadgetLikes
-        gadgetComments
-        gadgetRank
-        gadgetImages
-        gadgetDesc
-        
-        
-        memberId
-        soldAt
-        deletedAt
-        constructedAt
-        createdAt
-        updatedAt
-    }
-}
+		removeGadgetByAdmin(gadgetId: $input) {
+			_id
+			gadgetType
+			gadgetStatus
+			gadgetLocation
+			gadgetColor
+			gadgetTitle
+			gadgetPrice
+
+			gadgetWeight
+			gadgetCapacity
+			gadgetViews
+			gadgetLikes
+			gadgetComments
+			gadgetRank
+			gadgetImages
+			gadgetDesc
+
+			memberId
+			soldAt
+			deletedAt
+			constructedAt
+			createdAt
+			updatedAt
+		}
+	}
 `;
 
 /**************************
@@ -164,16 +162,18 @@ export const REMOVE_COMMENT_BY_ADMIN = gql`
 
 export const CREATE_NOTICE = gql`
 	mutation CreateNotice($input: CsInput!) {
-    createNotice(input: $input) {
-        noticeCategory
-        noticeStatus
-        noticeTitle
-        noticeContent
-        memberId
-        createdAt
-        updatedAt
-    }
-}`;
+		createNotice(input: $input) {
+			_id
+			noticeCategory
+			noticeStatus
+			noticeTitle
+			noticeContent
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
 
 export const UPDATE_NOTICE_BY_ADMIN = gql`
 	mutation UpdateNoticeByAdmin($input: NoticeUpdate!) {
@@ -191,8 +191,8 @@ export const UPDATE_NOTICE_BY_ADMIN = gql`
 `;
 
 export const REMOVE_NOTICE_BY_ADMIN = gql`
-	mutation RemoveNoticeByAdmin($input: String!) {
-		removeNoticeByAdmin(noticeId: $input) {
+	mutation removeNotice($input: String!) {
+		removeNotice(noticeId: $input) {
 			_id
 			noticeCategory
 			noticeStatus

@@ -92,7 +92,7 @@ export const GET_PROPERTY = gql`
 			gadgetColor
 			gadgetTitle
 			gadgetPrice
-			
+
 			gadgetWeight
 			gadgetCapacity
 			gadgetViews
@@ -101,8 +101,7 @@ export const GET_PROPERTY = gql`
 			gadgetRank
 			gadgetImages
 			gadgetDesc
-			
-			
+
 			memberId
 			soldAt
 			deletedAt
@@ -156,7 +155,7 @@ export const GET_PROPERTIES = gql`
 				gadgetColor
 				gadgetTitle
 				gadgetPrice
-				
+
 				gadgetWeight
 				gadgetCapacity
 				gadgetViews
@@ -165,8 +164,7 @@ export const GET_PROPERTIES = gql`
 				gadgetRank
 				gadgetImages
 				gadgetDesc
-				
-				
+
 				memberId
 				soldAt
 				deletedAt
@@ -257,7 +255,7 @@ export const GET_FAVORITES = gql`
 				gadgetColor
 				gadgetTitle
 				gadgetPrice
-				
+
 				gadgetWeight
 				gadgetCapacity
 				gadgetViews
@@ -266,8 +264,7 @@ export const GET_FAVORITES = gql`
 				gadgetRank
 				gadgetImages
 				gadgetDesc
-				
-				
+
 				memberId
 				soldAt
 				deletedAt
@@ -320,7 +317,7 @@ export const GET_VISITED = gql`
 				gadgetColor
 				gadgetTitle
 				gadgetPrice
-				
+
 				gadgetWeight
 				gadgetCapacity
 				gadgetViews
@@ -329,8 +326,7 @@ export const GET_VISITED = gql`
 				gadgetRank
 				gadgetImages
 				gadgetDesc
-				
-				
+
 				memberId
 				soldAt
 				deletedAt
@@ -598,7 +594,6 @@ export const GET_MEMBER_FOLLOWINGS = gql`
 	}
 `;
 
-
 /**************************
  *         FAQ       *
  *************************/
@@ -616,6 +611,46 @@ export const GET_FAQS = gql`
 				createdAt
 				updatedAt
 			}
+		}
+	}
+`;
+
+/**************************
+ *         NOTICE       *
+ *************************/
+export const GET_NOTICES = gql`
+	query GetNotices($input: NoticeInquiry!) {
+		getNotices(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				createdAt
+				updatedAt
+			}
+		}
+	}
+`;
+
+/**************************
+ *         NOTIFICATION        *
+ *************************/
+export const GET_NOTIFICATIONS = gql`
+	query GetNotifications($input: String!) {
+		getNotifications(receiverId: $input) {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationDesc
+			authorId
+			receiverId
+			gadgetId
+			articleId
 		}
 	}
 `;

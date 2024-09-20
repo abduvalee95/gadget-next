@@ -71,7 +71,7 @@ import { useFBO, useGLTF, useScroll, Text, Image, Scroll, Preload, ScrollControl
 export default function FiberContainer() {
   return (
     <Canvas camera={{ position: [0, 0, 20], fov: 15 }}>
-      <ScrollControls damping={0.1} pages={3} distance={0.5}>
+      <ScrollControls damping={0.5} pages={3.2} distance={0.5}>
         <Lens>
           <Scroll>
             <Typography />
@@ -154,20 +154,19 @@ function Images() {
 //@ts-ignore
     group.current.children[4].material.zoom = 1 + data.range(1.15 / 3, 1 / 3) / 2
 //@ts-ignore
-    group.current.children[5].material.grayscale = 1 - data.range(1.6 / 3, 1 / 3)
+    // group.current.children[5].material.grayscale = 1 - data.range(1.6 / 3, 1 / 3)
 //@ts-ignore
-    group.current.children[6].material.zoom = 1 + (1 - data.range(2 / 3, 1 / 3)) / 3
+    // group.current.children[6].material.zoom = 1 + (1 - data.range(2 / 3, 1 / 3)) / 3
   })
   return (
 //@ts-ignore
     <group ref={group}>
-      <Image position={[-2, 0, 0]} scale={[4, height, ]} url="img/fiber/img14.png" />
-      <Image position={[2, 0, 3]} scale={3} url="img/fiber/iphone15.webp" />
-      <Image position={[-2.05, -height, 6]} scale={[1, 3, ]} url="img/fiber/img2.png" />
-      <Image position={[-0.6, -height, 9]} scale={[1, 2, ]} url="img/fiber/mi.png" />
+      <Image position={[0.5, -0.5, 0]} scale={[4.1, height,]} url="img/fiber/img14.png" />
+      {/* <Image position={[-2.05, -height, 6]} scale={[1, 3, ]} url="img/fiber/img2.png" /> */}
+      <Image position={[-1.7, -height, 9]} scale={[1, 3 ]} url="img/fiber/mi.png" />
       <Image position={[0.75, -height, 10.5]} scale={1.5} url="img/fiber/zFold6.webp" />
-      <Image position={[0, -height * 1.5, 8.5]} scale={[1.5, 3, ]} url="img/fiber/camera15.webp" />
-      <Image position={[0, -height * 2 - height / 4, 0]} scale={[width, height / 3, ]} url="img/fiber/titan.gif" />
+      <Image position={[0, -height * 1.5, 8]} scale={[1.8, 1, ]} url="img/fiber/camera15.webp" />
+      <Image position={[0, -height * 2 - height / 3.5, -1.5]} scale={[9.7,2.7]} url="img/fiber/iphone16.png" />
     </group>
   )
 }
@@ -180,7 +179,7 @@ function Typography() {
     <>
       <Text children="to" anchorX="left" position={[-width / 2.5, -height / 10, 12]} {...shared} />
       <Text children="be" anchorX="right" position={[width / 2.5, -height * 2, 12]} {...shared} />
-      <Text children="Smart" position={[0, -height * 4.824, 8]} {...shared} />
+      <Text children="Iphone 16" position={[0, -height * 4.824, 8]} {...shared} />
     </>
   )
 }

@@ -39,7 +39,7 @@ const AdminNotice: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [updateFaqByAdmin] = useMutation(UPDATE_NOTICE_BY_ADMIN);
-	const [removeFaqByAdmin] = useMutation(REMOVE_NOTICE_BY_ADMIN);
+	const [removeNotice] = useMutation(REMOVE_NOTICE_BY_ADMIN);
 
 	const {
 		loading: getAllNoticesByAdminLoading,
@@ -146,8 +146,8 @@ const AdminNotice: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	const removeNoticeHandler = async (id: string) => {
 		try {
-			if (await sweetConfirmAlert('are you sure to remove?')) {
-				await removeFaqByAdmin({
+			if (await sweetConfirmAlert('Are you sure to remove?')) {
+				await removeNotice({
 					variables: {
 						input: id,
 					},
@@ -185,9 +185,6 @@ const AdminNotice: NextPage = ({ initialInquiry, ...props }: any) => {
 		}
 	};
 
-	console.log('+noticesInquiry', noticesInquiry);
-	console.log('+notices', notices);
-
 	return (
 		// @ts-ignore
 		<Box component={'div'} className={'content'}>
@@ -218,14 +215,14 @@ const AdminNotice: NextPage = ({ initialInquiry, ...props }: any) => {
 								<ListItem
 									onClick={(e: any) => tabChangeHandler(e, 'active')}
 									value="active"
-									className={'all' === 'all' ? 'li on' : 'li'}
+									className={'active' === 'active' ? 'li on' : 'li'}
 								>
 									Active
 								</ListItem>
 								<ListItem
 									onClick={(e: any) => tabChangeHandler(e, 'deleted')}
 									value="deleted"
-									className={'all' === 'all' ? 'li on' : 'li'}
+									className={'deleted' === 'deleted' ? 'li on' : 'li'}
 								>
 									Deleted
 								</ListItem>

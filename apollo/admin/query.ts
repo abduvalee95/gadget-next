@@ -43,71 +43,70 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
  *************************/
 
 export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-query GetAllGadgetsByAdmin($input: AllGadgetsInquiry!) {
-    getAllGadgetsByAdmin(input: $input) {
-        list {
-            _id
-            gadgetType
-            gadgetStatus
-            gadgetLocation
-            gadgetColor
-            gadgetTitle
-            gadgetPrice
-          
-            gadgetWeight
-            gadgetCapacity
-            gadgetViews
-            gadgetLikes
-            gadgetComments
-            gadgetRank
-            gadgetImages
-            gadgetDesc
-            
-            
-            memberId
-            soldAt
-            deletedAt
-            constructedAt
-            createdAt
-            updatedAt
-            memberData {
-                _id
-                memberType
-                memberStatus
-                memberAuthType
-                memberPhone
-                memberNick
-                memberFullName
-                memberImage
-                memberAddress
-                memberDesc
-                memberGadgets
-                memberArticles
-                memberFollowers
-                memberFollowings
-                memberPoints
-                memberLikes
-                memberViews
-                memberComments
-                memberRank
-                memberWarnings
-                memberBlocks
-                deletedAt
-                createdAt
-                updatedAt
-                accessToken
-            }
-            meLiked {
-                memberId
-                likeRefId
-                myFavorite
-            }
-        }
-        metaCounter {
-            total
-        }
-    }
-}
+	query GetAllGadgetsByAdmin($input: AllGadgetsInquiry!) {
+		getAllGadgetsByAdmin(input: $input) {
+			list {
+				_id
+				gadgetType
+				gadgetStatus
+				gadgetLocation
+				gadgetColor
+				gadgetTitle
+				gadgetPrice
+
+				gadgetWeight
+				gadgetCapacity
+				gadgetViews
+				gadgetLikes
+				gadgetComments
+				gadgetRank
+				gadgetImages
+				gadgetDesc
+
+				memberId
+				soldAt
+				deletedAt
+				constructedAt
+				createdAt
+				updatedAt
+				memberData {
+					_id
+					memberType
+					memberStatus
+					memberAuthType
+					memberPhone
+					memberNick
+					memberFullName
+					memberImage
+					memberAddress
+					memberDesc
+					memberGadgets
+					memberArticles
+					memberFollowers
+					memberFollowings
+					memberPoints
+					memberLikes
+					memberViews
+					memberComments
+					memberRank
+					memberWarnings
+					memberBlocks
+					deletedAt
+					createdAt
+					updatedAt
+					accessToken
+				}
+				meLiked {
+					memberId
+					likeRefId
+					myFavorite
+				}
+			}
+			metaCounter {
+				total
+			}
+		}
+	}
 `;
 
 /**************************
@@ -207,74 +206,23 @@ export const GET_COMMENTS = gql`
 `;
 
 /**************************
- *         GET_NOTIFICATIONS       *
- *************************/
-
-export const GET_NOTIFICATIONS = gql`
-	query GetNotification($input: String!) {
-    getNotification(input: $input) {
-        memberId
-        notificationRefId
-        unRead
-        notificationStatus
-        notificationGroup
-        authorId
-        receiverId
-        gadgetId
-        articleId
-        createdAt
-        updatedAt
-    }
-}`;
-
-/**************************
  *          GET_NOTICE        *
  *************************/
 export const GET_NOTICE = gql`
-query GetNotices($input: NoticesInquiry!) {
-    getNotices(input: $input) {
-        list {
-            noticeCategory
-            noticeStatus
-            noticeTitle
-            noticeContent
-            memberId
-            createdAt
-            updatedAt
-            memberData {
-                _id
-                memberType
-                memberStatus
-                memberAuthType
-                memberPhone
-                memberNick
-                memberFullName
-                memberImage
-                memberAddress
-                memberDesc
-                memberGadgets
-                memberArticles
-                memberFollowers
-                memberFollowings
-                memberPoints
-                memberLikes
-                memberViews
-                memberComments
-                memberRank
-                memberWarnings
-                memberBlocks
-                deletedAt
-                createdAt
-                updatedAt
-                accessToken
-                notifications
-            }
-        }
-        metaCounter {
-            total
-        }
-    }
-}
+	query GetNotices($input: NoticesInquiry!) {
+		getNotices(input: $input) {
+			list {
+				_id
+				noticeCategory
+				noticeStatus
+				noticeTitle
+				noticeContent
+				memberId
+				createdAt
+				updatedAt
+			}
+		}
+	}
 `;
 
 /**************************

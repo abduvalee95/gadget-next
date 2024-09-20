@@ -56,7 +56,7 @@ const headCells: readonly HeadCell[] = [
 		id: 'title',
 		numeric: true,
 		disablePadding: false,
-		label: 'TITLE',
+		label: 'Title',
 	},
 	// {
 	// 	id: 'id',
@@ -74,7 +74,7 @@ const headCells: readonly HeadCell[] = [
 		id: 'date',
 		numeric: true,
 		disablePadding: false,
-		label: 'DATE',
+		label: 'Date',
 	},
 	// {
 	// 	id: 'view',
@@ -86,7 +86,7 @@ const headCells: readonly HeadCell[] = [
 		id: 'action',
 		numeric: false,
 		disablePadding: false,
-		label: 'ACTION',
+		label: 'Action',
 	},
 ];
 
@@ -260,7 +260,14 @@ export const NoticeList = (props: NoticeListType) => {
 					{/*@ts-ignore*/}
 					<EnhancedTableToolbar />
 					<TableBody>
-						{notices.map((notice: Notice, index: number) => {
+					{notices?.length === 0 && (
+							<TableRow>
+								<TableCell align="center" colSpan={8}>
+									<span className={'no-data'}>You dont have any Notices!!</span>
+								</TableCell>
+							</TableRow>
+						)}
+						{notices?.map((notice: Notice, index: number) => {
 							const member_image = '/img/profile/defaultUser.svg';
 
 							return (
