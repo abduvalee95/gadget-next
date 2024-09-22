@@ -150,9 +150,9 @@ function Images() {
 //@ts-ignore
     group.current.children[2].material.zoom = 1 + data.range(1.15 / 3, 1 / 3) / 2
 //@ts-ignore
-    group.current.children[3].material.zoom = 1 + data.range(1.15 / 3, 1 / 3) / 2
+    group.current.children[3].material.zoom = 0.5 + data.range(1.15 / 3, 1 / 3) / 2
 //@ts-ignore
-    group.current.children[4].material.zoom = 1 + data.range(1.15 / 3, 1 / 3) / 2
+    group.current.children[4].material.zoom = 0.2 + data.range(2 / 3, 1 / 3) / 2
 //@ts-ignore
     // group.current.children[5].material.grayscale = 1 - data.range(1.6 / 3, 1 / 3)
 //@ts-ignore
@@ -161,12 +161,12 @@ function Images() {
   return (
 //@ts-ignore
     <group ref={group}>
-      <Image position={[0.5, -0.5, 0]} scale={[4.1, height,]} url="img/fiber/img14.png" />
+      <Image position={[0.5, -0.1, -1]} scale={[3.7,height]} url="img/fiber/iphone16pro.jpeg" />
       {/* <Image position={[-2.05, -height, 6]} scale={[1, 3, ]} url="img/fiber/img2.png" /> */}
       <Image position={[-1.7, -height, 9]} scale={[1, 3 ]} url="img/fiber/mi.png" />
       <Image position={[0.75, -height, 10.5]} scale={1.5} url="img/fiber/zFold6.webp" />
-      <Image position={[0, -height * 1.5, 8]} scale={[1.8, 1, ]} url="img/fiber/camera15.webp" />
-      <Image position={[0, -height * 2 - height / 3.5, -1.5]} scale={[9.7,2.7]} url="img/fiber/iphone16.png" />
+      <Image position={[0, -height *1.4, 14]} scale={[1,  1,]} url="img/fiber/iphone.webp" />
+      <Image position={[0.7, -height * 2 -height / 4.5, 1]} scale={[12,2]} url="img/fiber/iphone16.png" />
     </group>
   )
 }
@@ -178,7 +178,7 @@ function Typography() {
   return (
     <>
       <Text children="to" anchorX="left" position={[-width / 2.5, -height / 10, 12]} {...shared} />
-      <Text children="be" anchorX="right" position={[width / 2.5, -height * 2, 12]} {...shared} />
+      <Text children="get" anchorX="right" position={[width / 3.5, -height * 1.6, 14]} {...shared} />
       <Text children="Iphone 16" position={[0, -height * 4.824, 8]} {...shared} />
     </>
   )
