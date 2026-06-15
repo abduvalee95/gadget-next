@@ -20,9 +20,10 @@ function Card({ item, ...props }: { item: CoverflowItem } & Record<string, any>)
     easing.damp(ref.current.material, 'zoom', hovered ? 1 : 1.5, 0.2, delta);
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const ImageAny = Image as any;
   return (
-    // @ts-ignore - drei Image accepts geometry children + material props
-    <Image
+    <ImageAny
       ref={ref}
       url={item.image}
       transparent
@@ -33,7 +34,7 @@ function Card({ item, ...props }: { item: CoverflowItem } & Record<string, any>)
       {...props}
     >
       <bentPlaneGeometry args={[0.1, 1, 1, 20, 20]} />
-    </Image>
+    </ImageAny>
   );
 }
 
